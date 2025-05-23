@@ -12,14 +12,27 @@
 - Flexable use better-auth
 - Type safe
 
-## Instanll
+## Installation
 
-```shell
-// use npm
-npm install nuxt-better-auth better-auth
+Add dependencies to your project
 
-// use pnpm
+```bash [pnpm]
 pnpm add nuxt-better-auth better-auth
+```
+
+```bash [npm]
+npm install nuxt-better-auth better-auth
+```
+
+Add module in your `nuxt.config.ts`
+
+```typescript [nuxt.config.ts]
+export default defineNuxtConfig({
+	modules: ['nuxt-better-auth'],
+	betterAuth: {
+		// [Optional]
+	},
+})
 ```
 
 ## Usage
@@ -61,9 +74,9 @@ Can provide options by file, and with some magic to make it type safe.
 
 ### Client options
 
-Create file at nuxt's src dir (default same as root dir), e.g: `better-auth/client-options.ts`
+Create file at nuxt's src dir (default same as root dir), e.g: `better-auth/client-options.ts` or `app/better-auth/client-options.ts` in nuxt 4
 
-```typescript
+```typescript [better-auth/client-options.ts]
 import type { ClientOptions } from 'better-auth'
 import { anonymousClient } from 'better-auth/client/plugins'
 
@@ -78,7 +91,7 @@ export default () => ({
 
 Create file at nuxt's server dir (default is `server/`), e.g: `server/better-auth/server-options.ts`
 
-```typescript
+```typescript [server/better-auth/server-options.ts]
 import type { BetterAuthOptions } from 'better-auth'
 import { anonymous } from 'better-auth/plugins'
 
