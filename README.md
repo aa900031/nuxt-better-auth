@@ -89,6 +89,12 @@ export default () => ({
 } satisfies BetterAuthOptions)
 ```
 
+## License
+
+Made with ❤️
+
+Published under the [MIT License](https://github.com/aa900031/nuxt-better-auth/blob/main/LICENSE).
+
 <!-- Link Resources -->
 
 [npm-version-src]: https://img.shields.io/npm/v/nuxt-better-auth?style=flat&colorA=18181B&colorB=F0DB4F
