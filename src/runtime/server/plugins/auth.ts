@@ -1,11 +1,12 @@
+import type { BetterAuthResult } from '#build/types/better-auth/server-options'
 import loadServerOptions from '#better-auth/server-options.mjs'
 import { defineNitroPlugin } from '#imports'
 import { betterAuth } from 'better-auth'
 import { defu } from 'defu'
-import { isWorker } from '../../utils/is-worker'
+import { isWorkerd } from 'std-env'
 
 export default defineNitroPlugin((nitroApp) => {
-	if (isWorker()) {
+	if (isWorkerd) {
 		nitroApp.hooks.hook('request', (event) => {
 			const opts = loadServerOptions()
 			event.context.betterAuth = betterAuth(
@@ -20,3 +21,9 @@ export default defineNitroPlugin((nitroApp) => {
 		)
 	}
 })
+
+declare module 'nitropack' {
+	interface NitroApp {
+		_betterAuth: BetterAuthResult | undefined
+	}
+}

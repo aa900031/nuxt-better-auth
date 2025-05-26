@@ -20,16 +20,7 @@ import ServerOptionsLoader from '${relativePath}'
 
 type RawOptions = ReturnType<typeof ServerOptionsLoader>
 
-declare module 'h3' {
-  interface H3EventContext {
-    betterAuth: ReturnType<typeof betterAuth<RawOptions>> | undefined
-  }
-}
+export type BetterAuthResult = ReturnType<typeof betterAuth<RawOptions>>
 
-declare module 'nitropack' {
-  interface NitroApp {
-    _betterAuth: ReturnType<typeof betterAuth<RawOptions>> | undefined
-  }
-}
 `
 }

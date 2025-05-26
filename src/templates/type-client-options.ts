@@ -1,5 +1,6 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { ModuleOptions } from '../module'
+import { genImport } from 'knitwork'
 import { dirname, join, relative } from 'pathe'
 import { resolveFilePath } from '../utils/user-config'
 
@@ -15,15 +16,12 @@ export async function genTypeClientOptions(
 	const relativePath = relative(dirname(join(nuxt.options.buildDir, filename)), targetPath)
 
 	return /* typescript */`
-import { createAuthClient } from 'better-auth/client'
-import ClientOptionsLoader from '${relativePath}'
+${genImport('better-auth/client', ['createAuthClient'])}
+${genImport(relativePath, 'ClientOptionsLoader')}
 
 type RawOptions = ReturnType<typeof ClientOptionsLoader>
 
-declare module '#app' {
-  interface NuxtApp {
-    $betterAuthClient: ReturnType<typeof createAuthClient<RawOptions>>
-  }
-}
+export type AuthClientResult = ReturnType<typeof createAuthClient<RawOptions>>
+
 `
 }

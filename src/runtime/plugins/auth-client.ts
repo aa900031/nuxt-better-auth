@@ -1,3 +1,4 @@
+import type { AuthClientResult } from '#build/types/better-auth/client-options'
 import clientOptionsFromUser from '#build/better-auth/client-options.mjs'
 import { defineNuxtPlugin, useRequestHeaders, useRequestURL } from '#imports'
 import { createAuthClient } from 'better-auth/client'
@@ -29,3 +30,9 @@ export default defineNuxtPlugin({
 		}
 	},
 })
+
+declare module '#app' {
+	interface NuxtApp {
+		$betterAuthClient: AuthClientResult | undefined
+	}
+}
