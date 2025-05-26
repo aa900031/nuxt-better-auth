@@ -64,8 +64,16 @@ const { session, user } = useAuthState()
 
 <template>
 	User: {{ user }}
-	Session: {{ Session }}
+	Session: {{ session }}
 </template>
+```
+
+Get better-auth instance (in server)
+
+```typescript
+export default eventHandler(() => {
+	const betterAuth = useBetterAuth()
+})
 ```
 
 ## Custom options
