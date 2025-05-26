@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.1.2
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.1.1...v0.1.2)
+
+### 💅 Refactors
+
+-  Lazy create instance ([409a687](https://github.com/aa900031/nuxt-better-auth/commit/409a687d095e0ab19021b7838cae145c213eab19))
+
+
+
+#### ❤️ Contributors
+
+- Zhong666 <aa900031@gmail.com>
+
 ## v0.1.1
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.1.0...v0.1.1)
