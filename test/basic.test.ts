@@ -2,14 +2,15 @@ import { fileURLToPath } from 'node:url'
 import { $fetch, setup } from '@nuxt/test-utils/e2e'
 import { describe, expect, it } from 'vitest'
 
-describe('ssr', async () => {
+describe('use session', async () => {
 	await setup({
 		rootDir: fileURLToPath(new URL('./fixtures/basic', import.meta.url)),
 	})
 
-	it('renders the index page', async () => {
+	it('should renders with nullable session', async () => {
 		// Get response to a server-rendered page with `$fetch`.
 		const html = await $fetch('/')
-		expect(html).toContain('<div>basic</div>')
+		expect(html).contain('<p>User: null</p>')
+		expect(html).contain('<button>Sign In</button>')
 	})
 })
