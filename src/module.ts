@@ -1,4 +1,4 @@
-import { addImports, addPlugin, addServerHandler, addServerImports, addServerPlugin, addTypeTemplate, createResolver, defineNuxtModule } from '@nuxt/kit'
+import { addImports, addPlugin, addServerHandler, addServerImports, addServerPlugin, addTypeTemplate, createResolver, defineNuxtModule, useLogger, useNitro } from '@nuxt/kit'
 import { genTypeClientOptions } from './templates/type-client-options'
 import { genTypeServerOptions } from './templates/type-server-options'
 import { addServerUserConfig, addUserConfig } from './utils/user-config'
@@ -13,6 +13,7 @@ export interface ModuleOptions {
 		}
 	}
 	server: {
+		singleton: 'app' | 'request'
 		handlerPath: string
 		options: {
 			path: string
@@ -35,6 +36,7 @@ export default defineNuxtModule<ModuleOptions>({
 			},
 		},
 		server: {
+			singleton: 'app',
 			options: {
 				path: 'better-auth/server-options',
 			},
@@ -43,6 +45,7 @@ export default defineNuxtModule<ModuleOptions>({
 	},
 	setup(options, nuxt) {
 		const resolver = createResolver(import.meta.url)
+		const logger = useLogger()
 
 		addImports([
 			{
@@ -80,15 +83,36 @@ export default defineNuxtModule<ModuleOptions>({
 			)
 		}
 
-		addServerPlugin(
-			resolver.resolve('./runtime/server/plugins/auth'),
-		)
-		addServerImports([
-			{
-				name: 'useBetterAuth',
-				from: resolver.resolve('./runtime/server/utils/better-auth'),
-			},
-		])
+		switch (options.server.singleton) {
+			case 'request':
+				nuxt.hook('ready', () => {
+					const nitro = useNitro()
+					if (nitro.options.experimental.asyncContext !== true)
+						logger.warn('Please enable "experimental.asyncContext" first.')
+				})
+				addServerPlugin(
+					resolver.resolve('./runtime/server/plugins/auth-request'),
+				)
+				addServerImports([
+					{
+						name: 'useBetterAuth',
+						from: resolver.resolve('./runtime/server/utils/better-auth-request'),
+					},
+				])
+				break
+			case 'app':
+			default:
+				addServerPlugin(
+					resolver.resolve('./runtime/server/plugins/auth'),
+				)
+				addServerImports([
+					{
+						name: 'useBetterAuth',
+						from: resolver.resolve('./runtime/server/utils/better-auth'),
+					},
+				])
+				break
+		}
 		addServerHandler({
 			route: options.server.handlerPath,
 			handler: resolver.resolve('./runtime/server/api/auth'),

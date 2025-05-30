@@ -2,7 +2,6 @@
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![bundle][bundle-src]][bundle-href]
 <!-- [![coverage][coverage-src]][coverage-href] -->
 
 [![npm peer dependency version - better-auth][peer-deps-better-auth-src]][peer-deps-better-auth-href]
@@ -31,6 +30,27 @@ export default defineNuxtConfig({
 	modules: ['nuxt-better-auth'],
 	betterAuth: {
 		// [Optional]
+	},
+})
+```
+
+> [!TIP]
+> When you are using Postgresql as database with Hyperdrive in Cloudflare Worker, you should setup server singleton by request and enable [asyncContext](https://nitro.build/guide/utils#async-context-experimental).
+
+```typescript [nuxt.config.ts]
+export default defineNuxtConfig({
+	modules: ['nuxt-better-auth'],
+	// Setup server singleton by request
+	betterAuth: {
+		server: {
+			singleton: 'request',
+		},
+	},
+	// Enable async context: https://nitro.build/guide/utils#async-context-experimental
+	nitro: {
+		experimental: {
+			asyncContext: true,
+		},
 	},
 })
 ```
@@ -122,8 +142,6 @@ Published under the [MIT License](https://github.com/aa900031/nuxt-better-auth/b
 [npm-version-href]: https://npmjs.com/package/nuxt-better-auth
 [npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-better-auth?style=flat&colorA=18181B&colorB=F0DB4F
 [npm-downloads-href]: https://npmjs.com/package/nuxt-better-auth
-[bundle-src]: https://img.shields.io/bundlephobia/minzip/nuxt-better-auth?style=flat&colorA=18181B&colorB=F0DB4F
-[bundle-href]: https://bundlephobia.com/result?p=nuxt-better-auth
 [coverage-src]: https://img.shields.io/codecov/c/gh/aa900031/nuxt-better-auth?logo=codecov&style=flat&colorA=18181B&colorB=F0DB4F
 [coverage-href]: https://codecov.io/gh/aa900031/nuxt-better-auth
 [peer-deps-better-auth-src]: https://img.shields.io/npm/dependency-version/nuxt-better-auth/peer/better-auth?style=flat&colorA=18181B&colorB=F0DB4F
