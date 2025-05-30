@@ -43,4 +43,4 @@ jobs:
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./test-reports/junit.xml
+          files: ./reports/junit.xml
