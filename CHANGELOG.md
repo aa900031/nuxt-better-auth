@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.2.0
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.1.2...v0.2.0)
+
+### 🚀 Enhancements
+
+-  Add options "server.singleton" ([69ed2c0](https://github.com/aa900031/nuxt-better-auth/commit/69ed2c0e7adac0c73e1bc3f0e366bdf7385e478e))
+
+### 🏡 Chore
+
+-  Add test workflows ([20d838d](https://github.com/aa900031/nuxt-better-auth/commit/20d838da3b7de649ba972e312c78bdeb25174cdf))
+-  Reports path ([efd0ca3](https://github.com/aa900031/nuxt-better-auth/commit/efd0ca3ba708a41c9d8e9022e06667bc0e443f57))
+
+### ✅ Tests
+
+-  Add basic test ([936ab0c](https://github.com/aa900031/nuxt-better-auth/commit/936ab0c8bd819475dd3c69c914c8abb031690330))
+
+
+
+#### ❤️ Contributors
+
+- Zhong666 <aa900031@gmail.com>
+
 ## v0.1.2
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.1.1...v0.1.2)
