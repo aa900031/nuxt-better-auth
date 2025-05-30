@@ -39,6 +39,7 @@
 		"release": "release-it",
 		"lint": "eslint .",
 		"test": "vitest run",
+		"test:ci": "vitest run --coverage.provider=istanbul --reporter=junit --outputFile.junit=./reports/junit.xml",
 		"test:watch": "vitest watch",
 		"test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
 	},
@@ -60,6 +61,7 @@
 		"@nuxt/schema": "^3.17.4",
 		"@nuxt/test-utils": "^3.19.0",
 		"@types/node": "latest",
+		"@vitest/coverage-istanbul": "^3.1.4",
 		"better-auth": "^1.2.8",
 		"eslint": "^9.27.0",
 		"nuxt": "^3.17.4",

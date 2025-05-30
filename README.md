@@ -2,7 +2,7 @@
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
-<!-- [![coverage][coverage-src]][coverage-href] -->
+[![coverage][coverage-src]][coverage-href]
 
 [![npm peer dependency version - better-auth][peer-deps-better-auth-src]][peer-deps-better-auth-href]
 
