@@ -5,17 +5,17 @@ import { addServerUserConfig, addUserConfig } from './utils/user-config'
 
 export interface ModuleOptions {
 	client: {
-		options: {
+		options?: {
 			path: string
 		}
-		state: {
-			enabled: boolean
+		state?: {
+			enabled?: boolean
 		}
 	}
 	server: {
-		singleton: 'app' | 'request'
-		handlerPath: string
-		options: {
+		singleton?: 'app' | 'request'
+		handlerPath?: string
+		options?: {
 			path: string
 		}
 	}
@@ -57,7 +57,7 @@ export default defineNuxtModule<ModuleOptions>({
 			resolver.resolve('./runtime/plugins/auth-client'),
 		)
 		addUserConfig({
-			src: options.client.options.path,
+			src: options.client.options!.path,
 			build: 'better-auth/client-options.mjs',
 		}, nuxt)
 		addTypeTemplate({
@@ -68,7 +68,7 @@ export default defineNuxtModule<ModuleOptions>({
 			nuxt: true,
 		})
 
-		if (options.client.state.enabled) {
+		if (options.client.state!.enabled) {
 			addImports([
 				{
 					name: 'useAuthState',
@@ -118,7 +118,7 @@ export default defineNuxtModule<ModuleOptions>({
 			handler: resolver.resolve('./runtime/server/api/auth'),
 		})
 		addServerUserConfig({
-			src: options.server.options.path,
+			src: options.server.options!.path,
 			internal: '#better-auth/server-options.mjs',
 		}, nuxt)
 		addTypeTemplate({

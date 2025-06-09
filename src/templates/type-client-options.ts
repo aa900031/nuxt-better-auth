@@ -9,7 +9,7 @@ export async function genTypeClientOptions(
 	options: ModuleOptions,
 	nuxt: Nuxt,
 ): Promise<string> {
-	const targetPath = await resolveFilePath(options.client.options.path, nuxt)
+	const targetPath = await resolveFilePath(options.client.options!.path, nuxt)
 	if (!targetPath)
 		return /* typescript */``
 

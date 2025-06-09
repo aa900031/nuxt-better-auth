@@ -8,7 +8,7 @@ export async function genTypeServerOptions(
 	options: ModuleOptions,
 	nuxt: Nuxt,
 ): Promise<string> {
-	const targetPath = await resolveServerFilePath(options.server.options.path, nuxt)
+	const targetPath = await resolveServerFilePath(options.server.options!.path, nuxt)
 	if (!targetPath)
 		return /* typescript */``
 
