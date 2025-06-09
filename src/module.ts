@@ -64,6 +64,7 @@ export default defineNuxtModule<ModuleOptions>({
 			filename: 'types/better-auth/client-options.d.ts',
 			getContents: () =>
 				genTypeClientOptions('types/better-auth/client-options.d.ts', options, nuxt),
+			write: true,
 		}, {
 			nuxt: true,
 		})
@@ -125,6 +126,7 @@ export default defineNuxtModule<ModuleOptions>({
 			filename: 'types/better-auth/server-options.d.ts',
 			getContents: () =>
 				genTypeServerOptions('types/better-auth/server-options.d.ts', options, nuxt),
+			write: true,
 		}, {
 			nitro: true,
 		})
