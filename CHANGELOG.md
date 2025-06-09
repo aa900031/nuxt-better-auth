@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.3.0
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.2.0...v0.3.0)
+
+### 🚀 Enhancements
+
+-  Add error in auth state ([416d6bb](https://github.com/aa900031/nuxt-better-auth/commit/416d6bb5f16d51e4beb93be80f4fe45026398159))
+
+### 🩹 Fixes
+
+-  Flexable module options ([cae73f0](https://github.com/aa900031/nuxt-better-auth/commit/cae73f0e00123241016b8f9ee2164fd38a5dee5e))
+-  Type file write to fs ([3418193](https://github.com/aa900031/nuxt-better-auth/commit/3418193c2c34337d748f785786734bd7ddb597ed))
+
+### 🏡 Chore
+
+-  **playground:** Example to get session in the server ([a72c9e0](https://github.com/aa900031/nuxt-better-auth/commit/a72c9e0d9b966e2f40d1dcca74e2169780854eda))
+
+
+
+#### ❤️ Contributors
+
+- Zhong666 <aa900031@gmail.com>
+
 ## v0.2.0
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.1.2...v0.2.0)
