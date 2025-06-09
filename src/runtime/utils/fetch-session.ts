@@ -1,5 +1,4 @@
-import type { ClientOptions, InferSessionFromClient, InferUserFromClient } from 'better-auth'
-import type { createAuthClient } from 'better-auth/client'
+import type { BetterFetchError, ClientOptions, createAuthClient, InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
 import { ref, useRequestHeaders, useState } from '#imports'
 
 export async function fetchSession(
@@ -7,6 +6,7 @@ export async function fetchSession(
 ) {
 	const session = useState<InferSessionFromClient<ClientOptions> | null>('auth:session', () => null)
 	const user = useState<InferUserFromClient<ClientOptions> | null>('auth:user', () => null)
+	const error = useState<BetterFetchError | null>('auth:error', () => null)
 	const isFetching = import.meta.server ? ref(false) : useState('auth:isFetching', () => false)
 	const headers = import.meta.server ? useRequestHeaders() : undefined
 
@@ -21,6 +21,7 @@ export async function fetchSession(
 	})
 	session.value = resp?.data?.session || null
 	user.value = resp?.data?.user || null
+	error.value = (resp?.error as any) || null
 	isFetching.value = false
 	return resp?.data
 }
