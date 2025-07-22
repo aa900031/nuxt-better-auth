@@ -1,5 +1,7 @@
 export default defineNuxtConfig({
-	modules: ['../src/module'],
+	modules: [
+		'nuxt-better-auth',
+	],
 	devtools: { enabled: true },
 	betterAuth: {
 		server: {
