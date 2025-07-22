@@ -78,10 +78,10 @@ export default defineNuxtModule<ModuleOptions>({
 			)
 		}
 
-		nuxt.hooks.hook('nitro:config', (config) => {
-			config.modules ??= []
-			config.modules?.push('nitro-better-auth')
-			config.betterAuth = defu({}, options.server)
-		})
+		nuxt.options.build.transpile.push('nitro-better-auth')
+
+		nuxt.options.nitro.modules ??= []
+		nuxt.options.nitro.modules.push('nitro-better-auth')
+		nuxt.options.nitro.betterAuth = defu({}, options.server)
 	},
 })
