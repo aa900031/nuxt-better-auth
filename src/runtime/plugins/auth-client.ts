@@ -7,7 +7,7 @@ import { defu } from 'defu'
 export default defineNuxtPlugin({
 	name: 'better-auth:auth-client',
 	enforce: 'pre',
-	setup: () => {
+	setup: (nuxt) => {
 		const url = useRequestURL()
 		const headers = import.meta.server ? useRequestHeaders() : undefined
 
@@ -23,11 +23,7 @@ export default defineNuxtPlugin({
 			),
 		)
 
-		return {
-			provide: {
-				betterAuthClient: client,
-			},
-		}
+		nuxt.provide('betterAuthClient', client)
 	},
 })
 

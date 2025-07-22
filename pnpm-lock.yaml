@@ -17,6 +17,9 @@ importers:
       knitwork:
         specifier: ^1.2.0
         version: 1.2.0
+      nitro-better-auth:
+        specifier: ^0.1.0-beta.0
+        version: 0.1.0-beta.0(better-auth@1.2.8)(nitropack@2.11.12)
       pathe:
         specifier: ^2.0.3
         version: 2.0.3
@@ -54,9 +57,6 @@ importers:
       eslint:
         specifier: ^9.27.0
         version: 9.27.0(jiti@2.4.2)
-      nuxt:
-        specifier: ^3.17.4
-        version: 3.17.4(@parcel/watcher@2.5.1)(@types/node@20.19.9)(db0@0.3.2)(eslint@9.27.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.41.0)(terser@5.39.2)(typescript@5.8.3)(vite@6.3.5(@types/node@20.19.9)(jiti@2.4.2)(terser@5.39.2)(yaml@2.8.0))(vue-tsc@2.2.10(typescript@5.8.3))(yaml@2.8.0)
       release-it:
         specifier: ^19.0.2
         version: 19.0.2(@types/node@20.19.9)(magicast@0.3.5)
@@ -75,6 +75,9 @@ importers:
       nuxt:
         specifier: ^3.17.4
         version: 3.17.4(@parcel/watcher@2.5.1)(@types/node@20.19.9)(db0@0.3.2)(eslint@9.27.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.41.0)(terser@5.39.2)(typescript@5.8.3)(vite@6.3.5(@types/node@20.19.9)(jiti@2.4.2)(terser@5.39.2)(yaml@2.8.0))(vue-tsc@2.2.10(typescript@5.8.3))(yaml@2.8.0)
+      nuxt-better-auth:
+        specifier: workspace:*
+        version: link:..
 
 packages:
 
@@ -4047,6 +4050,12 @@ packages:
   new-github-release-url@2.0.0:
     resolution: {integrity: sha512-NHDDGYudnvRutt/VhKFlX26IotXe1w0cmkDm6JGquh5bz/bDTw0LufSmH/GxTjEdpHEO+bVKFTwdrcGa/9XlKQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  nitro-better-auth@0.1.0-beta.0:
+    resolution: {integrity: sha512-RZahZ0e7uRiWszJXzocMnBmz7hAahBa198+96W4B/zJeM81OEpPLXgbLJg2YyRkHSaFUh0jKWwOQrlRtRgIWug==}
+    peerDependencies:
+      better-auth: ^1.2.0
+      nitropack: ^2.11.13
 
   nitropack@2.11.12:
     resolution: {integrity: sha512-e2AdQrEY1IVoNTdyjfEQV93xkqz4SQxAMR0xWF8mZUUHxMLm6S4nPzpscjksmT4OdUxl0N8/DCaGjKQ9ghdodA==}
@@ -10364,6 +10373,15 @@ snapshots:
   new-github-release-url@2.0.0:
     dependencies:
       type-fest: 2.19.0
+
+  nitro-better-auth@0.1.0-beta.0(better-auth@1.2.8)(nitropack@2.11.12):
+    dependencies:
+      better-auth: 1.2.8
+      chokidar: 4.0.3
+      defu: 6.1.4
+      knitwork: 1.2.0
+      nitropack: 2.11.12
+      pathe: 2.0.3
 
   nitropack@2.11.12:
     dependencies:

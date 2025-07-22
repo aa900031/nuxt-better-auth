@@ -50,6 +50,7 @@
 		"@nuxt/kit": "^3.17.4",
 		"defu": "^6.1.4",
 		"knitwork": "^1.2.0",
+		"nitro-better-auth": "^0.1.0-beta.0",
 		"pathe": "^2.0.3"
 	},
 	"devDependencies": {
@@ -64,7 +65,6 @@
 		"@vitest/coverage-istanbul": "^3.1.4",
 		"better-auth": "^1.2.8",
 		"eslint": "^9.27.0",
-		"nuxt": "^3.17.4",
 		"release-it": "^19.0.2",
 		"typescript": "~5.8.3",
 		"vitest": "^3.1.4",
