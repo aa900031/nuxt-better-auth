@@ -2,7 +2,7 @@
 	"name": "nuxt-better-auth",
 	"type": "module",
 	"version": "0.3.0",
-	"packageManager": "pnpm@10.9.0",
+	"packageManager": "pnpm@10.13.1",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -60,7 +60,7 @@
 		"@nuxt/module-builder": "^1.0.1",
 		"@nuxt/schema": "^3.17.4",
 		"@nuxt/test-utils": "^3.19.0",
-		"@types/node": "latest",
+		"@types/node": "^20.19.9",
 		"@vitest/coverage-istanbul": "^3.1.4",
 		"better-auth": "^1.2.8",
 		"eslint": "^9.27.0",
