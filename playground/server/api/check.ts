@@ -1,9 +1,11 @@
-export default eventHandler(async (event) => {
-	const betterAuth = useBetterAuth()
-	const session = await betterAuth.api.getSession({
-		headers: event.headers,
-	})
-	return {
-		data: session?.user ?? null,
-	}
+export default eventHandler({
+	onRequest: [
+		AuthenticateMiddleware,
+	],
+	handler: async (event) => {
+		const { user } = event.context.auth!
+		return {
+			data: user ?? null,
+		}
+	},
 })
