@@ -18,8 +18,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       nitro-better-auth:
-        specifier: ^0.1.0-beta.0
-        version: 0.1.0-beta.0(better-auth@1.2.8)(nitropack@2.11.12)
+        specifier: ^0.1.0
+        version: 0.1.0(better-auth@1.2.8)(nitropack@2.11.12)
       pathe:
         specifier: ^2.0.3
         version: 2.0.3
@@ -4051,8 +4051,8 @@ packages:
     resolution: {integrity: sha512-NHDDGYudnvRutt/VhKFlX26IotXe1w0cmkDm6JGquh5bz/bDTw0LufSmH/GxTjEdpHEO+bVKFTwdrcGa/9XlKQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  nitro-better-auth@0.1.0-beta.0:
-    resolution: {integrity: sha512-RZahZ0e7uRiWszJXzocMnBmz7hAahBa198+96W4B/zJeM81OEpPLXgbLJg2YyRkHSaFUh0jKWwOQrlRtRgIWug==}
+  nitro-better-auth@0.1.0:
+    resolution: {integrity: sha512-UBUTHZQgduFXH/jnBK16mvsJg670TDpVrOj5pfKYbl1iqr0cZ7eIPVdVbpNTws3YjowY+kfaWcYgjnEkTRCz5g==}
     peerDependencies:
       better-auth: ^1.2.0
       nitropack: ^2.11.13
@@ -10374,7 +10374,7 @@ snapshots:
     dependencies:
       type-fest: 2.19.0
 
-  nitro-better-auth@0.1.0-beta.0(better-auth@1.2.8)(nitropack@2.11.12):
+  nitro-better-auth@0.1.0(better-auth@1.2.8)(nitropack@2.11.12):
     dependencies:
       better-auth: 1.2.8
       chokidar: 4.0.3
