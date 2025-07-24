@@ -2,7 +2,7 @@
 	"name": "nuxt-better-auth",
 	"type": "module",
 	"version": "0.3.0",
-	"packageManager": "pnpm@10.9.0",
+	"packageManager": "pnpm@10.13.1",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
