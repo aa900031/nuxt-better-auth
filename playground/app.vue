@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const authClient = useAuthClient()
 const { session, user } = useAuthState()
+const { data, refresh, error } = useFetch('/api/check')
 
 async function handleSignInClick() {
 	await authClient.signIn.anonymous()
@@ -8,6 +9,10 @@ async function handleSignInClick() {
 
 async function handleSignOutClick() {
 	await authClient.signOut()
+}
+
+async function handleClickRefetch() {
+	await refresh()
 }
 </script>
 
@@ -29,5 +34,20 @@ async function handleSignOutClick() {
 		@click="handleSignOutClick"
 	>
 		Sign Out
+	</button>
+	<hr>
+	<pre>
+		<code
+			v-if="error"
+			style="color: red;"
+			v-text="error"
+		/>
+		<code
+			v-else
+			v-text="data"
+		/>
+	</pre>
+	<button @click="handleClickRefetch">
+		Refetch by Check
 	</button>
 </template>

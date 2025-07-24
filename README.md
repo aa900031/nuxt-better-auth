@@ -35,7 +35,7 @@ export default defineNuxtConfig({
 ```
 
 > [!TIP]
-> When you are using Postgresql as database with Hyperdrive in Cloudflare Worker, you should setup server singleton by request and enable [asyncContext](https://nitro.build/guide/utils#async-context-experimental).
+> When you are using Postgresql as database with Hyperdrive in Cloudflare Worker, you should setup server singleton by request.
 
 ```typescript [nuxt.config.ts]
 export default defineNuxtConfig({
@@ -46,7 +46,7 @@ export default defineNuxtConfig({
 			singleton: 'request',
 		},
 	},
-	// Enable async context: https://nitro.build/guide/utils#async-context-experimental
+	// [Optional] Enable async context: https://nitro.build/guide/utils#async-context-experimental
 	nitro: {
 		experimental: {
 			asyncContext: true,
@@ -93,6 +93,14 @@ Get better-auth instance (in server)
 ```typescript
 export default eventHandler(() => {
 	const betterAuth = useBetterAuth()
+})
+```
+
+If use singleton for request, please put event to `useBetterAuth`, or used asyncContext first then you don't need that anymore.
+
+```typescript
+export default eventHandler(async (event) => {
+	const betterAuth = useBetterAuth(event)
 })
 ```
 
