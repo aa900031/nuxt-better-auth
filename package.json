@@ -57,18 +57,18 @@
 	"devDependencies": {
 		"@aa900031/eslint-config": "^3.1.0",
 		"@aa900031/release-it-config": "^0.1.0",
-		"@nuxt/devtools": "^2.4.1",
-		"@nuxt/eslint-config": "^1.4.0",
+		"@nuxt/devtools": "^2.6.2",
+		"@nuxt/eslint-config": "^1.5.2",
 		"@nuxt/module-builder": "^1.0.1",
-		"@nuxt/schema": "^3.17.4",
-		"@nuxt/test-utils": "^3.19.0",
+		"@nuxt/schema": "^3.17.7",
+		"@nuxt/test-utils": "^3.19.2",
 		"@types/node": "^20.19.9",
-		"@vitest/coverage-istanbul": "^3.1.4",
-		"better-auth": "^1.2.8",
-		"eslint": "^9.27.0",
-		"release-it": "^19.0.2",
+		"@vitest/coverage-istanbul": "^3.2.4",
+		"better-auth": "^1.2.12",
+		"eslint": "^9.31.0",
+		"release-it": "^19.0.4",
 		"typescript": "~5.8.3",
-		"vitest": "^3.1.4",
-		"vue-tsc": "^2.2.10"
+		"vitest": "^3.2.4",
+		"vue-tsc": "^2.2.12"
 	}
 }
