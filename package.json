@@ -1,7 +1,7 @@
 {
 	"name": "nuxt-better-auth",
 	"type": "module",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"packageManager": "pnpm@10.13.1",
 	"author": "zhong666 <hi@zhong666.me>",
 	"license": "MIT",

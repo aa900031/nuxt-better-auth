@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.3.1
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.3.0...v0.3.1)
+
+### 💅 Refactors
+
+-  Base on nitro-better-auth (#6) ([7de51b9](https://github.com/aa900031/nuxt-better-auth/commit/7de51b904d143ec2f26bf5c4c1f1838fe1d90911))
+
+### 🏡 Chore
+
+-  **deps:** Update node.js to v20.19.4 (#2) ([c8230ff](https://github.com/aa900031/nuxt-better-auth/commit/c8230ffa6a58905651e5d6168bc979b236dc5c3f))
+-  **deps:** Update npm non-major dependencies to ^3.17.7 (#3) ([9578bfd](https://github.com/aa900031/nuxt-better-auth/commit/9578bfd3979eb57eae539e70a9285f27adc02245))
+-  **deps:** Update npm non-major develop dependencies (#4) ([9ccd73d](https://github.com/aa900031/nuxt-better-auth/commit/9ccd73d3a8af3b82c7237a72c47bae47705e3eab))
+-  **deps:** Update npm non-major develop dependencies (#7) ([6a130a9](https://github.com/aa900031/nuxt-better-auth/commit/6a130a96333ab7ac0808936e0a040700fc8c3ef3))
+
+
+
+#### ❤️ Contributors
+
+- Renovate[bot] 
+- Zhong666 <aa900031@gmail.com>
+
 ## v0.3.0
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.2.0...v0.3.0)
