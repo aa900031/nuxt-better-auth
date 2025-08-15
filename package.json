@@ -58,7 +58,7 @@
 		"@aa900031/eslint-config": "^3.1.0",
 		"@aa900031/release-it-config": "^0.1.0",
 		"@nuxt/devtools": "^2.6.2",
-		"@nuxt/eslint-config": "^1.7.1",
+		"@nuxt/eslint-config": "^1.8.0",
 		"@nuxt/module-builder": "^1.0.2",
 		"@nuxt/schema": "^3.18.1",
 		"@nuxt/test-utils": "^3.19.2",
