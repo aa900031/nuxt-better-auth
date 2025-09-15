@@ -10,7 +10,7 @@ describe('use session', async () => {
 	it('should renders with nullable session', async () => {
 		// Get response to a server-rendered page with `$fetch`.
 		const html = await $fetch('/')
-		expect(html).contain('<p>User: null</p>')
-		expect(html).contain('<button>Sign In</button>')
+		expect(html).contain('User: null')
+		expect(html).contain('Sign In')
 	})
 })

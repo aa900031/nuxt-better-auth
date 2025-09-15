@@ -14,6 +14,10 @@ async function handleSignOutClick() {
 <template>
 	<p>User: {{ user === null ? 'null' : user }}</p>
 	<p>Session: {{ session === null ? 'null' : session }}</p>
-	<button v-if="session == null" @click="handleSignInClick">Sign In</button>
-	<button v-else @click="handleSignOutClick">Sign Out</button>
+	<button v-if="session == null" @click="handleSignInClick">
+		Sign In
+	</button>
+	<button v-else @click="handleSignOutClick">
+		Sign Out
+	</button>
 </template>
