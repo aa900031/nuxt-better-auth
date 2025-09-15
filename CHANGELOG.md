@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.3.2
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.3.1...v0.3.2)
+
+### 🏡 Chore
+
+-  **deps:** Update devdependency @nuxt/eslint-config to ^1.8.0 (#12) ([cea212e](https://github.com/aa900031/nuxt-better-auth/commit/cea212e01ad920d563bb3ed04bcc10274ee8404f))
+-  **deps:** Update devdependency @nuxt/schema to ^3.18.1 (#11) ([7573689](https://github.com/aa900031/nuxt-better-auth/commit/7573689acab8c65f38346183883451103185d23d))
+-  **deps:** Update devdependency @types/node to ^20.19.11 (#15) ([42f52e1](https://github.com/aa900031/nuxt-better-auth/commit/42f52e160a5d9382f5556f9d093c5e815093fd2e))
+-  **deps:** Update devdependency better-auth to ^1.3.6 (#14) ([991be8b](https://github.com/aa900031/nuxt-better-auth/commit/991be8bcbd96be33d0fc7b03151998b7cb50ae5c))
+-  **deps:** Update npm non-major develop dependencies (#13) ([03793e6](https://github.com/aa900031/nuxt-better-auth/commit/03793e68226ae245fba6205472f59b9769984917))
+-  **deps:** Update npm non-major develop dependencies (#16) ([2b2f754](https://github.com/aa900031/nuxt-better-auth/commit/2b2f754a161928af09c7a4e088960bdfd4140080))
+-  **deps:** Update npm non-major develop dependencies (#18) ([ae766a4](https://github.com/aa900031/nuxt-better-auth/commit/ae766a413e951d753264546e30a2705fa1e6c8e6))
+-  **deps:** Update npm non-major develop dependencies (#8) ([3a35c08](https://github.com/aa900031/nuxt-better-auth/commit/3a35c08c60076945879242c9d4459365a4c5892e))
+-  **deps:** Update pnpm to v10.15.1 (#10) ([6098a2c](https://github.com/aa900031/nuxt-better-auth/commit/6098a2c11655fec820c82710d2e17f9fd45f138a))
+-  **playground:** Resolve local module by relative path ([d75f34b](https://github.com/aa900031/nuxt-better-auth/commit/d75f34b1b65207b09e4700901ff9cd965c81d109))
+-  Upgrade pkgs ([feb20d7](https://github.com/aa900031/nuxt-better-auth/commit/feb20d7dedf5dc9f2d06e5afce9c6816c627107f))
+
+
+
+#### ❤️ Contributors
+
+- Renovate[bot] 
+- Zhong666 <aa900031@gmail.com>
+
 ## v0.3.1
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.3.0...v0.3.1)
