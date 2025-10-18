@@ -46,7 +46,7 @@ importers:
         specifier: ^3.19.2
         version: 3.19.2(magicast@0.3.5)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@20.19.21)(jiti@2.6.1)(terser@5.39.2)(yaml@2.8.1))
       '@types/node':
-        specifier: ^20.19.19
+        specifier: ^20.19.21
         version: 20.19.21
       '@vitest/coverage-istanbul':
         specifier: ^3.2.4
