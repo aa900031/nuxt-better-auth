@@ -48,7 +48,7 @@
 		"better-auth": "^1.2.0"
 	},
 	"dependencies": {
-		"@nuxt/kit": "^3.17.7",
+		"@nuxt/kit": "^3.19.3",
 		"defu": "^6.1.4",
 		"knitwork": "^1.2.0",
 		"nitro-better-auth": "^0.1.1",
