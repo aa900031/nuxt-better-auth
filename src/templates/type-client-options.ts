@@ -19,9 +19,9 @@ export async function genTypeClientOptions(
 ${genImport('better-auth/client', ['createAuthClient'])}
 ${genImport(relativePath, 'ClientOptionsLoader')}
 
-type RawOptions = ReturnType<typeof ClientOptionsLoader>
+export type AuthClientOptions = ReturnType<typeof ClientOptionsLoader>
 
-export type AuthClientResult = ReturnType<typeof createAuthClient<RawOptions>>
+export type AuthClientResult = ReturnType<typeof createAuthClient<AuthClientOptions>>
 
 `
 }
