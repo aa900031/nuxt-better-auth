@@ -36,6 +36,7 @@
 		"postinstall": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
 		"build": "nuxt-module-build build",
 		"dev": "nuxi dev playground",
+		"dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
 		"dev:build": "nuxi build playground",
 		"release": "release-it",
 		"lint": "eslint .",
