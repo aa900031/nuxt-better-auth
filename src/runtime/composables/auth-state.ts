@@ -1,7 +1,7 @@
 import type { AuthClientOptions } from '#build/types/better-auth/client-options'
 import type { Ref } from '#imports'
 import type { BetterFetchError, createAuthClient, InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
-import { getCurrentScope, onScopeDispose, toRef, unref, useAsyncData, useAuthClient, useRequestHeaders } from '#imports'
+import { getCurrentScope, onScopeDispose, toRef, unref, useAsyncData, useAuthClient } from '#imports'
 
 export interface AuthState {
 	session: Ref<InferSessionFromClient<AuthClientOptions> | null>
@@ -12,15 +12,10 @@ export interface AuthState {
 
 export function useAuthState(): AuthState & Promise<AuthState> {
 	const client = useAuthClient() as ReturnType<typeof createAuthClient>
-	const headers = import.meta.server ? useRequestHeaders() : undefined
 	const asyncData = useAsyncData(
 		'better-auth:session',
 		async () => {
-			const { data, error } = await client.getSession({
-				fetchOptions: {
-					headers,
-				},
-			})
+			const { data, error } = await client.getSession()
 			if (error != null)
 				throw error
 
@@ -28,7 +23,8 @@ export function useAuthState(): AuthState & Promise<AuthState> {
 			return data ?? DEFAULT_STATE
 		},
 		{
-			default: () => null,
+			// eslint-disable-next-line ts/no-use-before-define
+			default: () => DEFAULT_STATE,
 			dedupe: 'defer',
 		},
 	)
@@ -38,8 +34,8 @@ export function useAuthState(): AuthState & Promise<AuthState> {
 	}
 
 	const extraData = {
-		session: toRef(() => unref(asyncData.data)?.session),
-		user: toRef(() => unref(asyncData.data)?.user),
+		session: toRef(() => unref(asyncData.data).session),
+		user: toRef(() => unref(asyncData.data).user),
 		error: asyncData.error,
 		isFetching: asyncData.pending,
 	}
