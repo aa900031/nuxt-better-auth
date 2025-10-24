@@ -18,7 +18,7 @@ catalogs:
     '@nuxt/schema': ^3.19.3
     '@nuxt/test-utils': ^3.19.2
     '@vitest/coverage-istanbul': ^3.2.4
-    eslint: ^9.37.0
+    eslint: ^9.38.0
     nuxt: ^3.19.3
     release-it: ^19.0.5
     vitest: ^3.2.4
