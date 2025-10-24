@@ -27,7 +27,7 @@ jobs:
           no-turbo-cache: 'true'
 
       - name: Build dist
-        run: pnpm run dev:prepare && pnpm run build
+        run: pnpm run build
 
       - name: Publish to npm
         run: pnpm publish --access public --no-git-checks

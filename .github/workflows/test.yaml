@@ -27,9 +27,6 @@ jobs:
         with:
           no-turbo-cache: 'true'
 
-      - name: Prepare
-        run: pnpm run dev:prepare
-
       - name: Run Test
         run: pnpm run test:ci
 
