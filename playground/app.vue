@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const authClient = useAuthClient()
-const { session, user } = useAuthState()
+const { session, user } = await useAuthState()
 const { data, refresh, error } = useFetch('/api/check')
 
 async function handleSignInClick() {

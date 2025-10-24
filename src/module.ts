@@ -70,12 +70,6 @@ export default defineNuxtModule<ModuleOptions>({
 					from: resolver.resolve('./runtime/composables/auth-state'),
 				},
 			])
-			addPlugin(
-				resolver.resolve('./runtime/plugins/auth-state.client'),
-			)
-			addPlugin(
-				resolver.resolve('./runtime/plugins/auth-state.server'),
-			)
 		}
 
 		nuxt.options.build.transpile.push('nitro-better-auth')
