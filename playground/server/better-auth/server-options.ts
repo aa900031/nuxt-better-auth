@@ -6,5 +6,8 @@ export default function () {
 		plugins: [
 			anonymous(),
 		],
+		trustedOrigins: [
+			'http://localhost:3000',
+		],
 	} satisfies BetterAuthOptions
 }

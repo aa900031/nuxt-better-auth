@@ -7,5 +7,8 @@ export default function () {
 		plugins: [
 			anonymous(),
 		],
+		trustedOrigins: [
+			'*',
+		],
 	} satisfies BetterAuthOptions
 }
