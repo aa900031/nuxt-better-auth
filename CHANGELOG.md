@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.3.3
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.3.2...v0.3.3)
+
+### 💅 Refactors
+
+-  UseAuthState with useAsyncData (#24) ([ea22521](https://github.com/aa900031/nuxt-better-auth/commit/ea22521283e6f31e8ae5056ab843edf3af214f89))
+
+### 🏡 Chore
+
+-  Add autofix (#21) ([08b3c32](https://github.com/aa900031/nuxt-better-auth/commit/08b3c3282afb93046a22e2cb59399f8bad3936b2))
+-  **deps:** Update devdependency @types/node to ^20.19.21 (#23) ([305ca42](https://github.com/aa900031/nuxt-better-auth/commit/305ca42e0642d71cd33506d11f629c38f5945e52))
+-  **deps:** Update devdependency @types/node to ^20.19.22 (#25) ([675128d](https://github.com/aa900031/nuxt-better-auth/commit/675128d1da8ea5ef0257f25369129fd0ce6e79b6))
+-  **deps:** Update node.js to v20.19.5 (#17) ([e43e3c7](https://github.com/aa900031/nuxt-better-auth/commit/e43e3c7ee131f70996d2f44f73dfc28e990e6b6d))
+-  **deps:** Update npm non-major dependencies to ^3.19.3 (#9) ([94074e9](https://github.com/aa900031/nuxt-better-auth/commit/94074e94b7fb475f5f94a32f5afd662cd65e451b))
+-  **deps:** Update npm non-major develop dependencies (#19) ([ba3f06b](https://github.com/aa900031/nuxt-better-auth/commit/ba3f06bbdca51aa12e6bd4291c2f464071e8a93d))
+-  **deps:** Update npm non-major develop dependencies (#22) ([5b9a2d4](https://github.com/aa900031/nuxt-better-auth/commit/5b9a2d474e9ed92115b8ac5eb5d782d0702922b0))
+-  **deps:** Update pnpm to v10.18.3 (#20) ([f7d0949](https://github.com/aa900031/nuxt-better-auth/commit/f7d09499bd7cbb6af0deeeea95c226d223f7766c))
+-  Drop script "dev:prepare" ([36183ee](https://github.com/aa900031/nuxt-better-auth/commit/36183ee958cce42187a6493eb2105297282f88c1))
+-  Pnpm catalogs ([0ac0895](https://github.com/aa900031/nuxt-better-auth/commit/0ac0895d1dc972085e49c84fe860302200eed776))
+-  Took back dev:prepare ([dc3a8b7](https://github.com/aa900031/nuxt-better-auth/commit/dc3a8b740a22679fba665736f762315be6a13345))
+-  Upgrade release scripts ([2c85a72](https://github.com/aa900031/nuxt-better-auth/commit/2c85a721224ddadd792ee0ba487a69849d203053))
+-  Use npm trusted publisher ([e3809e0](https://github.com/aa900031/nuxt-better-auth/commit/e3809e0ca1be34259fec568d824b7cbbe383a979))
+-  With trusted origins ([faf7f6f](https://github.com/aa900031/nuxt-better-auth/commit/faf7f6f7e41833b2bdfcca5b6a28ce03eeabeab2))
+
+
+
+#### ❤️ Contributors
+
+- Zhong666 <aa900031@gmail.com>
+- Renovate[bot]
+
 ## v0.3.2
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.3.1...v0.3.2)
