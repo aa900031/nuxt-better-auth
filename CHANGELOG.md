@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.3.4
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.3.3...v0.3.4)
+
+### 🩹 Fixes
+
+-  Default user options (#28) ([2e3102a](https://github.com/aa900031/nuxt-better-auth/commit/2e3102a0530d9e9f3b0f8f393a155426b1d716ee))
+
+### 🏡 Chore
+
+-  **deps:** Update all non-major dependencies (#27) ([58cbc89](https://github.com/aa900031/nuxt-better-auth/commit/58cbc89de0e21273432f7626bd3a30a899bb16e9))
+-  **deps:** Update nitro-better-auth ([891f8ad](https://github.com/aa900031/nuxt-better-auth/commit/891f8ad525f13a9b038691a4f1e52ffc5425fa19))
+-  Prepare before build ([90205fd](https://github.com/aa900031/nuxt-better-auth/commit/90205fd4ddd9ab9474a26350cba778ca0fdb093f))
+
+
+
+#### ❤️ Contributors
+
+- Zhong666 <aa900031@gmail.com>
+- Renovate[bot]
+
 ## v0.3.3
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.3.2...v0.3.3)
