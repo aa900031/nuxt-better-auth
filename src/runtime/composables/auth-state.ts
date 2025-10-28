@@ -1,6 +1,6 @@
 import type { AuthClientOptions } from '#build/types/better-auth/client-options'
 import type { Ref } from '#imports'
-import type { BetterFetchError, createAuthClient, InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
+import type { BetterFetchError, InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
 import { getCurrentScope, onScopeDispose, toRef, unref, useAsyncData, useAuthClient } from '#imports'
 
 export interface AuthState {
@@ -11,7 +11,7 @@ export interface AuthState {
 }
 
 export function useAuthState(): AuthState & Promise<AuthState> {
-	const client = useAuthClient() as ReturnType<typeof createAuthClient>
+	const client = useAuthClient()
 	const asyncData = useAsyncData(
 		'better-auth:session',
 		async () => {

@@ -1,5 +1,5 @@
 import type { AuthClientResult } from '#build/types/better-auth/client-options'
-import clientOptionsFromUser from '#build/better-auth/client-options.mjs'
+import loadClientOptions from '#build/better-auth/client-options.mjs'
 import { defineNuxtPlugin, useRequestHeaders, useRequestURL } from '#imports'
 import { createAuthClient } from 'better-auth/client'
 import { defu } from 'defu'
@@ -13,13 +13,13 @@ export default defineNuxtPlugin({
 
 		const client = createAuthClient(
 			defu(
+				loadClientOptions(),
 				{
 					baseURL: baseUrl,
 					fetchOptions: {
 						headers,
 					},
 				},
-				clientOptionsFromUser(),
 			),
 		)
 
