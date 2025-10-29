@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.4.0
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.3.4...v0.4.0)
+
+### 🚀 Enhancements
+
+-  Auth state in server mode (#31) ([f26f6e7](https://github.com/aa900031/nuxt-better-auth/commit/f26f6e700df99887cb704a30db632d1bf6559854))
+
+
+
+#### ❤️ Contributors
+
+- Zhong666 <aa900031@gmail.com>
+
 ## v0.3.4
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.3.3...v0.3.4)
