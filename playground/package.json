@@ -8,8 +8,8 @@
 		"generate": "nuxi generate"
 	},
 	"dependencies": {
-		"better-auth": "catalog:peer",
-		"nuxt": "catalog:dev",
+		"better-auth": "^1.3.28",
+		"nuxt": "^3.19.3",
 		"nuxt-better-auth": "workspace:*"
 	}
 }
