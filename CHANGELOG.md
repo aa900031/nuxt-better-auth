@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.5.0
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.4.0...v0.5.0)
+
+### 🚀 Enhancements
+
+-  Prevent fetch session when prerendered (#33) ([9b5e539](https://github.com/aa900031/nuxt-better-auth/commit/9b5e5391834453e66175fb454b71c2e365dbfe08))
+-  UseGetAuthSession (#32) ([d4104ad](https://github.com/aa900031/nuxt-better-auth/commit/d4104ad5c5cebded13fadfa106faa1c3bb1d0f86))
+
+### 🏡 Chore
+
+-  Revert pnpm catalog ([f9d6903](https://github.com/aa900031/nuxt-better-auth/commit/f9d6903fce0ad83282973e955c43a86e193172e0))
+
+
+
+#### ❤️ Contributors
+
+- Zhong666 <aa900031@gmail.com>
+
 ## v0.4.0
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.3.4...v0.4.0)
