@@ -1,7 +1,7 @@
 import type { AuthClientOptions } from '#build/types/better-auth/client-options'
 import type { Ref } from '#imports'
 import type { BetterFetchError, InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
-import { getCurrentScope, onScopeDispose, toRef, unref, useAsyncData, useAuthClient, useGetAuthSession } from '#imports'
+import { getCurrentScope, onScopeDispose, toRef, unref, useAsyncData, useAuthClient, useGetAuthSession, useNuxtApp, useRequestEvent } from '#imports'
 
 export interface AuthState {
 	session: Ref<InferSessionFromClient<AuthClientOptions> | null>
@@ -16,10 +16,19 @@ const DEFAULT_STATE = Object.freeze({
 })
 
 export function useAuthState(): AuthState & Promise<AuthState> {
+	const event = useRequestEvent()
+	const nuxtApp = useNuxtApp()
 	const getSession = useGetAuthSession()
 	const asyncData = useAsyncData(
 		'better-auth:session',
-		async () => (await getSession()) ?? DEFAULT_STATE,
+		async () => {
+			if (
+				!import.meta.server
+				|| (nuxtApp.payload.serverRendered && !nuxtApp.payload.prerenderedAt && !event?.context.cache)
+			) {
+				return (await getSession()) ?? DEFAULT_STATE
+			}
+		},
 		{
 			default: () => DEFAULT_STATE,
 			dedupe: 'defer',
