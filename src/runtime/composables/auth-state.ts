@@ -1,8 +1,7 @@
 import type { AuthClientOptions } from '#build/types/better-auth/client-options'
 import type { Ref } from '#imports'
-import type { betterAuth as createBetterAuth } from 'better-auth'
-import type { BetterFetchError, createAuthClient, InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
-import { getCurrentScope, onScopeDispose, toRef, unref, useAsyncData, useAuthClient, useNuxtApp, useRequestEvent } from '#imports'
+import type { BetterFetchError, InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
+import { getCurrentScope, onScopeDispose, toRef, unref, useAsyncData, useAuthClient, useGetAuthSession } from '#imports'
 
 export interface AuthState {
 	session: Ref<InferSessionFromClient<AuthClientOptions> | null>
@@ -11,17 +10,17 @@ export interface AuthState {
 	isFetching: Ref<boolean>
 }
 
+const DEFAULT_STATE = Object.freeze({
+	session: null,
+	user: null,
+})
+
 export function useAuthState(): AuthState & Promise<AuthState> {
-	const getSession = setupGetSession()
+	const getSession = useGetAuthSession()
 	const asyncData = useAsyncData(
 		'better-auth:session',
-		async () => {
-			const data = await getSession()
-			// eslint-disable-next-line ts/no-use-before-define
-			return data ?? DEFAULT_STATE
-		},
+		async () => (await getSession()) ?? DEFAULT_STATE,
 		{
-			// eslint-disable-next-line ts/no-use-before-define
 			default: () => DEFAULT_STATE,
 			dedupe: 'defer',
 		},
@@ -33,8 +32,8 @@ export function useAuthState(): AuthState & Promise<AuthState> {
 	}
 
 	const extraData = {
-		session: toRef(() => unref(asyncData.data).session),
-		user: toRef(() => unref(asyncData.data).user),
+		session: toRef(() => unref(asyncData.data)?.session ?? null),
+		user: toRef(() => unref(asyncData.data)?.user ?? null),
 		error: asyncData.error,
 		isFetching: asyncData.pending,
 	}
@@ -43,33 +42,4 @@ export function useAuthState(): AuthState & Promise<AuthState> {
 	Object.assign(result, extraData)
 
 	return result as AuthState & Promise<AuthState>
-}
-
-const DEFAULT_STATE = Object.freeze({
-	session: null,
-	user: null,
-})
-
-function setupGetSession() {
-	const event = useRequestEvent()
-	const nuxtApp = useNuxtApp()
-
-	return import.meta.server
-		? () => {
-				const betterAuth = event?.context.betterAuth as ReturnType<typeof createBetterAuth> | undefined
-				if (!betterAuth)
-					throw new Error('Please setup better-auth first')
-				return betterAuth.api.getSession({
-					headers: event?.headers ?? {},
-				})
-			}
-		: async () => {
-			const authClient = nuxtApp.$betterAuthClient as (ReturnType<typeof createAuthClient> | undefined)
-			if (!authClient)
-				throw new Error('Please setup better-auth first')
-			const { data, error } = await authClient.getSession()
-			if (error)
-				throw error
-			return data
-		}
 }

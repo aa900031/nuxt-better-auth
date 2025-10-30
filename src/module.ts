@@ -69,6 +69,10 @@ export default defineNuxtModule<ModuleOptions>({
 					name: 'useAuthState',
 					from: resolver.resolve('./runtime/composables/auth-state'),
 				},
+				{
+					name: 'useGetAuthSession',
+					from: resolver.resolve('./runtime/composables/get-auth-session'),
+				},
 			])
 		}
 
