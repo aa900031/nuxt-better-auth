@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.5.1
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.5.0...v0.5.1)
+
+### 🩹 Fixes
+
+-  Not need set enforce (#35) ([1b482da](https://github.com/aa900031/nuxt-better-auth/commit/1b482daf01a29183f1afae2dc17c3c9e41bdf972))
+
+
+
+#### ❤️ Contributors
+
+- Zhong666 <aa900031@gmail.com>
+
 ## v0.5.0
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.4.0...v0.5.0)
