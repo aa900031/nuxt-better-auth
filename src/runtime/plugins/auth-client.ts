@@ -6,7 +6,6 @@ import { defu } from 'defu'
 
 export default defineNuxtPlugin({
 	name: 'better-auth:auth-client',
-	enforce: 'pre',
 	setup: (nuxt) => {
 		const baseUrl = resolveUrl()
 		const headers = resolveHeaders()
