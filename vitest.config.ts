@@ -7,7 +7,6 @@ export default defineConfig({
 			'playground/**',
 		],
 		coverage: {
-			enabled: true,
 			provider: 'istanbul',
 			exclude: [
 				...coverageConfigDefaults.exclude,
