@@ -34,13 +34,12 @@
 	],
 	"scripts": {
 		"build": "nuxt-module-build prepare && nuxt-module-build build",
-		"dev": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground && nuxi dev playground",
+		"dev": "nuxi dev playground",
+		"dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
 		"dev:build": "nuxi build playground",
 		"release": "release-it",
 		"lint": "eslint .",
 		"test": "vitest run",
-		"test:ci": "nuxt-module-build build --stub && nuxt-module-build prepare && vitest run --coverage.provider=istanbul --reporter=junit --outputFile.junit=./reports/junit.xml",
-		"test:watch": "vitest watch",
 		"test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
 	},
 	"peerDependencies": {
