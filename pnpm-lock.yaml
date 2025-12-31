@@ -58,7 +58,7 @@ importers:
         specifier: ^9.39.2
         version: 9.39.2(jiti@2.6.1)
       release-it:
-        specifier: ^19.2.0
+        specifier: ^19.2.1
         version: 19.2.2(@types/node@20.19.27)(magicast@0.3.5)
       typescript:
         specifier: ~5.9.3
