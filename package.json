@@ -64,7 +64,7 @@
 		"@vitest/coverage-istanbul": "^3.2.4",
 		"better-auth": "^1.4.9",
 		"eslint": "^9.39.2",
-		"release-it": "^19.2.0",
+		"release-it": "^19.2.1",
 		"typescript": "~5.9.3",
 		"vitest": "^3.2.4",
 		"vue-tsc": "^2.2.12"
