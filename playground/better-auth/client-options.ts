@@ -1,4 +1,5 @@
-import type { ClientOptions } from 'better-auth'
+/* eslint-disable ts/explicit-function-return-type */
+import type { BetterAuthClientOptions } from 'better-auth'
 import { anonymousClient } from 'better-auth/client/plugins'
 
 export default function () {
@@ -6,5 +7,5 @@ export default function () {
 		plugins: [
 			anonymousClient(),
 		],
-	} satisfies ClientOptions
+	} satisfies BetterAuthClientOptions
 }

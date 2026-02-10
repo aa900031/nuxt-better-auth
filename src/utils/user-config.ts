@@ -11,7 +11,7 @@ export function addUserConfig(
 		build: string
 	},
 	nuxt = useNuxt(),
-) {
+): void {
 	addTemplate({
 		filename: filenames.build,
 		getContents: ({ nuxt }) => genConfigLoaderContent(filenames, nuxt),

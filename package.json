@@ -53,7 +53,7 @@
 		"pathe": "^2.0.3"
 	},
 	"devDependencies": {
-		"@aa900031/eslint-config": "^3.2.0",
+		"@aa900031/eslint-config": "^6.0.0",
 		"@aa900031/release-it-config": "^0.1.0",
 		"@nuxt/devtools": "^2.7.0",
 		"@nuxt/eslint-config": "^1.13.0",
