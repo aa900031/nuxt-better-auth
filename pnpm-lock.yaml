@@ -52,7 +52,7 @@ importers:
         specifier: ^9.39.2
         version: 9.39.2(jiti@2.6.1)
       knitwork:
-        specifier: ^1.2.0
+        specifier: ^1.3.0
         version: 1.3.0
       pathe:
         specifier: ^2.0.3
