@@ -1,7 +1,7 @@
-import type { AuthClientOptions } from '#build/types/better-auth/client-options'
 import type { betterAuth as createBetterAuth } from 'better-auth'
 import type { createAuthClient, InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
-import { useNuxtApp, useRequestEvent } from '#imports'
+import type { AuthClientOptions } from '#build/types/better-auth/client-options'
+import { useNuxtApp, useRequestEvent } from '#app'
 
 export function useGetAuthSession(): () => Promise<
 	| {

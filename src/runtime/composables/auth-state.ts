@@ -1,7 +1,8 @@
+import type { BetterFetchError, InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
 import type { AuthClientOptions } from '#build/types/better-auth/client-options'
 import type { Ref } from '#imports'
-import type { BetterFetchError, InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
-import { getCurrentScope, onScopeDispose, toRef, unref, useAsyncData, useAuthClient, useGetAuthSession, useNuxtApp, useRequestEvent } from '#imports'
+import { useAsyncData, useNuxtApp, useRequestEvent } from '#app'
+import { getCurrentScope, onScopeDispose, toRef, unref, useAuthClient, useGetAuthSession } from '#imports'
 
 export interface AuthState {
 	session: Ref<InferSessionFromClient<AuthClientOptions> | null>

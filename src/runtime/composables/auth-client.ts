@@ -1,5 +1,5 @@
 import type { AuthClientResult } from '#build/types/better-auth/client-options'
-import { useNuxtApp } from '#imports'
+import { useNuxtApp } from '#app'
 
 export function useAuthClient(): AuthClientResult {
 	const nuxtApp = useNuxtApp()
