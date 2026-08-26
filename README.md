@@ -8,7 +8,7 @@
 [![npm peer dependency version - better-auth](https://img.shields.io/npm/dependency-version/nuxt-better-auth/peer/better-auth?style=flat&colorA=18181B&colorB=F0DB4F)](https://www.npmjs.com/package/better-auth)
 [![npm peer dependency version - @nuxt/kit](https://img.shields.io/npm/dependency-version/nuxt-better-auth/peer/%40nuxt%2Fkit?style=flat&colorA=18181B&colorB=F0DB4F)](https://www.npmjs.com/package/@nuxt/kit)
 
-# Features
+## Features
 
 - Flexable use better-auth
 - Type safe
