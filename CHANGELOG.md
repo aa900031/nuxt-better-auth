@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.6.1
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.6.0...v0.6.1)
+
+### 🩹 Fixes
+
+-  Untype for import from `#imports` ([aa34349](https://github.com/aa900031/nuxt-better-auth/commit/aa34349e7278b72d024dd3289bff8b419ccb4018))
+
+### 🏡 Chore
+
+-  **deps:** Update deps ([51a6601](https://github.com/aa900031/nuxt-better-auth/commit/51a66010d7759a90b69f291aa8d8c1ac8b664063))
+-  **deps:** Update deps for github actions ([27029d8](https://github.com/aa900031/nuxt-better-auth/commit/27029d807697fcc6a2afd932042f62e0fcedc1f9))
+-  **deps:** Update devdependency @aa900031/release-it-config to ^0.1.1 (#59) ([19399a0](https://github.com/aa900031/nuxt-better-auth/commit/19399a0bb331314e56728e96134dd8232429a277))
+-  **deps:** Update devdependency better-auth to ^1.4.19 (#62) ([cf3099c](https://github.com/aa900031/nuxt-better-auth/commit/cf3099c32b0309d1225b1a1d50f6bfef83ef8b56))
+-  **deps:** Update devdependency better-auth to ^1.5.0 (#64) ([c945405](https://github.com/aa900031/nuxt-better-auth/commit/c945405c7ec06ab144ab293aee0a0df494bf1780))
+-  **deps:** Update devdependency better-auth to ^1.5.1 (#65) ([dd75067](https://github.com/aa900031/nuxt-better-auth/commit/dd750675505208ec5bbdbbaf5c7ccd57af6a54d1))
+-  **deps:** Update devdependency better-auth to ^1.5.5 (#67) ([3b5c8ad](https://github.com/aa900031/nuxt-better-auth/commit/3b5c8ad51f41ab8612dcc455a566b3047d389ee3))
+-  **deps:** Update devdependency eslint to ^9.39.3 (#61) ([4dc5c8d](https://github.com/aa900031/nuxt-better-auth/commit/4dc5c8d2b853a6a3c657e14e30f1a69c55ecb592))
+-  **deps:** Update devdependency knitwork to ^1.3.0 (#56) ([5d64901](https://github.com/aa900031/nuxt-better-auth/commit/5d649019b8da476fc5171f732fb814223b6844c0))
+-  **deps:** Update npm non-major develop dependencies (#57) ([ea3cbf5](https://github.com/aa900031/nuxt-better-auth/commit/ea3cbf5fd243e38a7ca510bfdd6eb0f9ca3b6ec4))
+-  **deps:** Update npm non-major develop dependencies (#58) ([37de54a](https://github.com/aa900031/nuxt-better-auth/commit/37de54ad833ba0617424566a18724d51072626ca))
+-  **deps:** Update npm non-major develop dependencies (#63) ([b9ba273](https://github.com/aa900031/nuxt-better-auth/commit/b9ba273cac626479c0aaa305086ebef6e5eca0ce))
+-  **deps:** Update npm non-major develop dependencies (#66) ([5c2f438](https://github.com/aa900031/nuxt-better-auth/commit/5c2f438868f8eee9f64c88f07fe9033b4ba2b6b2))
+-  **deps:** Update npm non-major develop dependencies to ^3.21.2 (#68) ([e2f282e](https://github.com/aa900031/nuxt-better-auth/commit/e2f282e9670e061164ade2b5c02f91aeefee147d))
+-  Format from eslint ([2d5ffba](https://github.com/aa900031/nuxt-better-auth/commit/2d5ffba26fc08f577fb839d69fac9a5bb6bb535b))
+-  Update node version ([2e8398e](https://github.com/aa900031/nuxt-better-auth/commit/2e8398edb179e7aba4355af6dd944830e8cbf1c5))
+
+
+
+#### ❤️ Contributors
+
+- Zhong666 <aa900031@gmail.com>
+- Renovate[bot]
+
 ## v0.6.0
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.5.1...v0.6.0)
