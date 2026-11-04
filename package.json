@@ -19,6 +19,10 @@
 		".": {
 			"types": "./dist/types.d.mts",
 			"import": "./dist/module.mjs"
+		},
+		"./config": {
+			"types": "./dist/runtime/config.d.ts",
+			"import": "./dist/runtime/config.js"
 		}
 	},
 	"main": "./dist/module.mjs",
@@ -26,6 +30,9 @@
 		"*": {
 			".": [
 				"./dist/types.d.mts"
+			],
+			"config": [
+				"./dist/runtime/config.d.ts"
 			]
 		}
 	},
