@@ -104,9 +104,22 @@ function resolveUrl(
 	const basePath = publicConfig.basePath
 		|| serverConfig?.basePath
 		|| joinURL(runtimeConfig.app.baseURL || '/', mountPath)
-	const origin = baseURL
-		? new URL(baseURL).origin
-		: requestURL.origin
+
+	let origin: string
+	if (baseURL) {
+		origin = new URL(baseURL).origin
+	}
+	else if (import.meta.dev || import.meta.client) {
+		origin = requestURL.origin
+	}
+	else {
+		throw new Error(
+			'[nuxt-better-auth] Could not resolve the better-auth baseURL in production. '
+			+ 'Set `runtimeConfig.public.betterAuth.baseURL` (NUXT_PUBLIC_BETTER_AUTH_BASE_URL), '
+			+ '`runtimeConfig.public.siteUrl` (NUXT_PUBLIC_SITE_URL), '
+			+ 'or the BETTER_AUTH_URL environment variable.',
+		)
+	}
 	return joinURL(origin, basePath)
 }
 
