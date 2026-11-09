@@ -125,6 +125,20 @@ export default () => ({
 } satisfies ClientOptions)
 ```
 
+### Forwarded headers (SSR)
+
+During SSR, the auth client forwards an allowlist of incoming request headers to auth requests. The default is `['cookie', 'authorization']`, covering cookie sessions and the bearer plugin. Configure it via the module option (the list replaces the default entirely, so include `cookie` when extending it):
+
+```typescript [nuxt.config.ts]
+export default defineNuxtConfig({
+	betterAuth: {
+		client: {
+			forwardHeaders: ['cookie', 'authorization', 'x-api-key'],
+		},
+	},
+})
+```
+
 ### Server options
 
 Create file at nuxt's server dir (default is `server/`), e.g: `server/better-auth/server-options.ts`

@@ -9,7 +9,7 @@ import { env } from 'std-env'
 import { joinURL } from 'ufo'
 import { defineNuxtPlugin, useRequestHeaders, useRequestURL, useState } from '#app'
 import loadClientOptions from '#build/better-auth/client-options.mjs'
-import { mountPath } from '#build/better-auth/server-options.mjs'
+import { forwardHeaders, mountPath } from '#build/better-auth/server-options.mjs'
 import { useRuntimeConfig } from '#imports'
 
 interface PublicServerConfig {
@@ -23,7 +23,7 @@ export default defineNuxtPlugin({
 		const publicServerConfig = useState<PublicServerConfig | null>('better-auth:public-server-config', () => null)
 		const runtimeConfig = useRuntimeConfig()
 		const requestURL = useRequestURL()
-		const requestHeaders = useRequestHeaders()
+		const requestHeaders = useRequestHeaders(forwardHeaders)
 
 		let client: AuthClientResult | undefined
 		nuxt.provide(
@@ -38,7 +38,7 @@ function createClient(
 	serverConfig: Ref<PublicServerConfig | null>,
 	runtimeConfig: ReturnType<typeof useRuntimeConfig>,
 	requestURL: URL,
-	requestHeaders: Record<string, string>,
+	requestHeaders: Record<string, string | undefined>,
 ): AuthClientResult {
 	if (import.meta.server && serverConfig.value == null) {
 		const config = readServerConfig(nuxt.ssrContext?.event)
@@ -46,7 +46,6 @@ function createClient(
 			serverConfig.value = config
 	}
 
-	const headers = resolveHeaders(requestHeaders)
 	const baseUrl = resolveUrl(serverConfig.value, runtimeConfig, requestURL)
 	const context: ClientOptionsContext = { baseURL: baseUrl }
 	const options = (loadClientOptions(context) ?? {}) as BetterAuthClientOptions
@@ -54,13 +53,15 @@ function createClient(
 	if (!options.baseURL) {
 		options.baseURL = baseUrl
 	}
-	if (!options.fetchOptions) {
-		options.fetchOptions = {
-			headers,
+	if (Object.keys(requestHeaders).length) {
+		if (!options.fetchOptions) {
+			options.fetchOptions = {
+				headers: requestHeaders,
+			}
 		}
-	}
-	else if (!options.fetchOptions.headers) {
-		options.fetchOptions.headers = headers
+		else if (!options.fetchOptions.headers) {
+			options.fetchOptions.headers = requestHeaders
+		}
 	}
 
 	return createAuthClient(options) as AuthClientResult
@@ -88,25 +89,6 @@ function readServerConfig(event: H3Event | undefined): PublicServerConfig | null
 			? betterAuth.options.basePath
 			: undefined,
 	}
-}
-
-const IGNORE_LIST = [
-	'host',
-]
-
-function resolveHeaders(
-	requestHeaders: Record<string, any> | undefined,
-): Record<string, any> | undefined {
-	if (requestHeaders == null)
-		return undefined
-
-	const cloned = { ...requestHeaders }
-
-	for (const key of IGNORE_LIST) {
-		delete cloned[key]
-	}
-
-	return cloned
 }
 
 function resolveUrl(

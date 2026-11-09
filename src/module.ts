@@ -15,6 +15,13 @@ export interface ModuleOptions {
 		state?: {
 			enabled?: boolean
 		}
+		/**
+		 * Allowlist of request headers forwarded to auth client requests during SSR.
+		 * Replaces the default entirely, so include `cookie` when extending it.
+		 *
+		 * @default ['cookie', 'authorization']
+		 */
+		forwardHeaders?: string[]
 	}
 	server: NitroModuleOptions
 }
@@ -38,6 +45,10 @@ export default defineNuxtModule<ModuleOptions>({
 			state: {
 				enabled: true,
 			},
+			forwardHeaders: [
+				'cookie',
+				'authorization',
+			],
 		},
 		server: {
 			singleton: 'app',

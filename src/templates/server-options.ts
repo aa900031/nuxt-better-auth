@@ -15,6 +15,7 @@ function getContents(
 	options: ModuleOptions,
 ): string {
 	return /* typescript */`
-export const mountPath = ${JSON.stringify(options.server.mountPath)}
+export const mountPath = ${options.server.mountPath ? JSON.stringify(options.server.mountPath) : undefined}
+export const forwardHeaders = ${options.client.forwardHeaders ? JSON.stringify(options.client.forwardHeaders) : undefined}
 `
 }
