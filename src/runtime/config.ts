@@ -4,7 +4,6 @@ export { defineAuthOptions as defineAuthServerOptions } from 'nitro-better-auth/
 export type { AuthOptionsFactory as AuthServerOptionsFactory, ServerOptionsContext } from 'nitro-better-auth/config'
 
 export interface ClientOptionsContext {
-	/** The resolved auth base URL: the site origin, joined with `app.baseURL` and `mountPath` when they differ from better-auth's defaults. */
 	baseURL: string
 }
 

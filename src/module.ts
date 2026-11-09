@@ -1,8 +1,10 @@
 import type { ModuleOptions as NitroModuleOptions } from 'nitro-better-auth'
 import { addImports, addPlugin, addTypeTemplate, createResolver, defineNuxtModule } from '@nuxt/kit'
 import defu from 'defu'
+import { addServerOptions } from './templates/server-options'
 import { genTypeClientOptions } from './templates/type-client-options'
 import { addAuthSecret } from './utils/auth-secret'
+import { setupRuntimeConfig } from './utils/runtime-config'
 import { addUserConfig } from './utils/user-config'
 
 export interface ModuleOptions {
@@ -39,19 +41,16 @@ export default defineNuxtModule<ModuleOptions>({
 		},
 		server: {
 			singleton: 'app',
+			mountPath: '/api/auth',
 			options: {
 				path: 'better-auth/server-options',
 			},
-			handlerPath: '/api/auth/**',
 		},
 	},
 	async setup(options, nuxt) {
 		const resolver = createResolver(import.meta.url)
 
-		nuxt.options.runtimeConfig.betterAuth = defu(
-			nuxt.options.runtimeConfig.betterAuth ?? {},
-			{ baseURL: '', basePath: '', secret: '' },
-		)
+		setupRuntimeConfig(nuxt)
 
 		addImports([
 			{
@@ -88,6 +87,7 @@ export default defineNuxtModule<ModuleOptions>({
 			])
 		}
 
+		addServerOptions(options)
 		await addAuthSecret(nuxt, options, resolver)
 
 		nuxt.options.build.transpile.push('nitro-better-auth')
