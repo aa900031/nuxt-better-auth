@@ -1,7 +1,10 @@
 import type { ModuleOptions as NitroModuleOptions } from 'nitro-better-auth'
 import { addImports, addPlugin, addTypeTemplate, createResolver, defineNuxtModule } from '@nuxt/kit'
 import defu from 'defu'
+import { addServerOptions } from './templates/server-options'
 import { genTypeClientOptions } from './templates/type-client-options'
+import { addAuthSecret } from './utils/auth-secret'
+import { setupRuntimeConfig } from './utils/runtime-config'
 import { addUserConfig } from './utils/user-config'
 
 export interface ModuleOptions {
@@ -12,8 +15,21 @@ export interface ModuleOptions {
 		state?: {
 			enabled?: boolean
 		}
+		/**
+		 * Allowlist of request headers forwarded to auth client requests during SSR.
+		 * Replaces the default entirely, so include `cookie` when extending it.
+		 *
+		 * @default ['cookie', 'authorization']
+		 */
+		forwardHeaders?: string[]
 	}
 	server: NitroModuleOptions
+}
+
+export interface ModuleRuntimeConfig {
+	baseURL?: string
+	basePath?: string
+	secret?: string
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -29,17 +45,23 @@ export default defineNuxtModule<ModuleOptions>({
 			state: {
 				enabled: true,
 			},
+			forwardHeaders: [
+				'cookie',
+				'authorization',
+			],
 		},
 		server: {
 			singleton: 'app',
+			mountPath: '/api/auth',
 			options: {
 				path: 'better-auth/server-options',
 			},
-			handlerPath: '/api/auth/**',
 		},
 	},
-	setup(options, nuxt) {
+	async setup(options, nuxt) {
 		const resolver = createResolver(import.meta.url)
+
+		setupRuntimeConfig(nuxt)
 
 		addImports([
 			{
@@ -75,6 +97,9 @@ export default defineNuxtModule<ModuleOptions>({
 				},
 			])
 		}
+
+		addServerOptions(options)
+		await addAuthSecret(nuxt, options, resolver)
 
 		nuxt.options.build.transpile.push('nitro-better-auth')
 

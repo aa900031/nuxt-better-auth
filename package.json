@@ -19,6 +19,10 @@
 		".": {
 			"types": "./dist/types.d.mts",
 			"import": "./dist/module.mjs"
+		},
+		"./config": {
+			"types": "./dist/runtime/config.d.ts",
+			"import": "./dist/runtime/config.js"
 		}
 	},
 	"main": "./dist/module.mjs",
@@ -26,6 +30,9 @@
 		"*": {
 			".": [
 				"./dist/types.d.mts"
+			],
+			"config": [
+				"./dist/runtime/config.d.ts"
 			]
 		}
 	},
@@ -47,7 +54,9 @@
 		"better-auth": "^1.2.0",
 		"defu": "^6.1.4",
 		"knitwork": "^1.2.0",
-		"pathe": "^2.0.3"
+		"pathe": "^2.0.3",
+		"std-env": "^4.0.0",
+		"ufo": "^1.5.0"
 	},
 	"dependencies": {
 		"nitro-better-auth": "^0.3.1"
@@ -69,7 +78,9 @@
 		"knitwork": "^1.3.0",
 		"pathe": "^2.0.3",
 		"release-it": "^20.2.1",
+		"std-env": "^4.2.0",
 		"typescript": "~5.9.3",
+		"ufo": "^1.6.4",
 		"vitest": "^4.1.11",
 		"vue-tsc": "^3.3.11"
 	}

@@ -24,10 +24,10 @@ export function useGetAuthSession(): () => Promise<
 			return data
 		}
 		: async () => {
-			const authClient = nuxtApp.$betterAuthClient as (ReturnType<typeof createAuthClient> | undefined)
-			if (!authClient)
+			const getAuthClient = nuxtApp.$betterAuthClient as ((() => ReturnType<typeof createAuthClient>) | undefined)
+			if (!getAuthClient)
 				throw new Error('Please setup better-auth first')
-			const { data, error } = await authClient.getSession()
+			const { data, error } = await getAuthClient().getSession()
 			if (error)
 				throw error
 			return data
