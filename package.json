@@ -47,7 +47,7 @@
 		"release": "release-it",
 		"lint": "eslint .",
 		"test": "vitest run",
-		"test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
+		"typecheck": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
 	},
 	"peerDependencies": {
 		"@nuxt/kit": "^3.19.3 || ^4.0.0",

@@ -5,8 +5,8 @@ import { useAsyncData, useNuxtApp, useRequestEvent } from '#app'
 import { getCurrentScope, onScopeDispose, toRef, unref, useAuthClient, useGetAuthSession } from '#imports'
 
 export interface AuthState {
-	session: Ref<InferSessionFromClient<AuthClientOptions> | null>
-	user: Ref<InferUserFromClient<AuthClientOptions> | null>
+	session: Readonly<Ref<InferSessionFromClient<AuthClientOptions> | null>>
+	user: Readonly<Ref<InferUserFromClient<AuthClientOptions> | null>>
 	error: Ref<BetterFetchError | null>
 	isFetching: Ref<boolean>
 }
@@ -37,8 +37,9 @@ export function useAuthState(): AuthState & Promise<AuthState> {
 	)
 	if (import.meta.client) {
 		const client = useAuthClient()
-		const unsubscribe = client.$store.atoms.$sessionSignal.subscribe(() => asyncData.refresh())
-		getCurrentScope() && onScopeDispose(unsubscribe)
+		const unsubscribe = client.$store.atoms.$sessionSignal?.subscribe(() => asyncData.refresh())
+		if (unsubscribe && getCurrentScope())
+			onScopeDispose(unsubscribe)
 	}
 
 	const extraData = {
@@ -48,8 +49,10 @@ export function useAuthState(): AuthState & Promise<AuthState> {
 		isFetching: asyncData.pending,
 	}
 
-	const result = Promise.resolve(asyncData).then(() => extraData)
-	Object.assign(result, extraData)
+	const result = Object.assign(
+		Promise.resolve(asyncData).then(() => extraData),
+		extraData,
+	)
 
 	return result as AuthState & Promise<AuthState>
 }

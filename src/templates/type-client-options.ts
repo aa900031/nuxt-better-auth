@@ -10,8 +10,16 @@ export async function genTypeClientOptions(
 	nuxt: Nuxt,
 ): Promise<string> {
 	const targetPath = await resolveFilePath(options.client.options!.path, nuxt)
-	if (!targetPath)
-		return /* typescript */``
+	if (!targetPath) {
+		return /* typescript */`
+${genImport('better-auth/client', ['createAuthClient'])}
+
+export type AuthClientOptions = {}
+
+export type AuthClientResult = ReturnType<typeof createAuthClient<AuthClientOptions>>
+
+`
+	}
 
 	const relativePath = relative(dirname(join(nuxt.options.buildDir, filename)), targetPath)
 

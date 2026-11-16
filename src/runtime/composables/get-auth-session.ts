@@ -1,15 +1,16 @@
 import type { betterAuth as createBetterAuth } from 'better-auth'
-import type { createAuthClient, InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
-import type { AuthClientOptions } from '#build/types/better-auth/client-options'
+import type { InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
+import type { AuthClientOptions, AuthClientResult } from '#build/types/better-auth/client-options'
 import { useNuxtApp, useRequestEvent } from '#app'
 
-export function useGetAuthSession(): () => Promise<
-	| {
+type AuthSessionData
+	= | {
 		session: InferSessionFromClient<AuthClientOptions>
 		user: InferUserFromClient<AuthClientOptions>
 	}
 	| null
-> {
+
+export function useGetAuthSession(): () => Promise<AuthSessionData> {
 	const event = useRequestEvent()
 	const nuxtApp = useNuxtApp()
 
@@ -21,10 +22,10 @@ export function useGetAuthSession(): () => Promise<
 			const data = await betterAuth.api.getSession({
 				headers: event?.headers ?? {},
 			})
-			return data
+			return data as AuthSessionData
 		}
 		: async () => {
-			const getAuthClient = nuxtApp.$betterAuthClient as ((() => ReturnType<typeof createAuthClient>) | undefined)
+			const getAuthClient = nuxtApp.$betterAuthClient as ((() => AuthClientResult) | undefined)
 			if (!getAuthClient)
 				throw new Error('Please setup better-auth first')
 			const { data, error } = await getAuthClient().getSession()

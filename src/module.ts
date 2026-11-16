@@ -51,7 +51,6 @@ export default defineNuxtModule<ModuleOptions>({
 			],
 		},
 		server: {
-			singleton: 'app',
 			mountPath: '/api/auth',
 			options: {
 				path: 'better-auth/server-options',
@@ -99,7 +98,7 @@ export default defineNuxtModule<ModuleOptions>({
 		}
 
 		addServerOptions(options)
-		await addAuthSecret(nuxt, options, resolver)
+		await addAuthSecret(nuxt, resolver)
 
 		nuxt.options.build.transpile.push('nitro-better-auth')
 
