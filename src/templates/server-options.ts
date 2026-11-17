@@ -1,21 +1,9 @@
-import type { ModuleOptions } from '../module'
-import { addTemplate } from '@nuxt/kit'
-
-export function addServerOptions(
-	options: ModuleOptions,
-): void {
-	addTemplate({
-		filename: 'better-auth/server-options.mjs',
-		getContents: () => getContents(options),
-		write: true,
-	})
-}
-
-function getContents(
-	options: ModuleOptions,
+export function genServerOptions(
+	mountPath: string | undefined,
+	forwardHeaders: string[] | undefined,
 ): string {
 	return /* typescript */`
-export const mountPath = ${options.server.mountPath ? JSON.stringify(options.server.mountPath) : undefined}
-export const forwardHeaders = ${options.client.forwardHeaders ? JSON.stringify(options.client.forwardHeaders) : undefined}
+export const mountPath = ${mountPath ? JSON.stringify(mountPath) : undefined}
+export const forwardHeaders = ${forwardHeaders ? JSON.stringify(forwardHeaders) : undefined}
 `
 }
