@@ -36,27 +36,6 @@ export default defineNuxtConfig({
 })
 ```
 
-> [!TIP]
-> When you are using Postgresql as database with Hyperdrive in Cloudflare Worker, you should setup server singleton by request.
-
-```typescript [nuxt.config.ts]
-export default defineNuxtConfig({
-	modules: ['nuxt-better-auth'],
-	// Setup server singleton by request
-	betterAuth: {
-		server: {
-			singleton: 'request',
-		},
-	},
-	// [Optional] Enable async context: https://nitro.build/guide/utils#async-context-experimental
-	nitro: {
-		experimental: {
-			asyncContext: true,
-		},
-	},
-})
-```
-
 ## Usage
 
 Create sign in / sign out button with useAuthClient
@@ -93,16 +72,18 @@ const { session, user } = useAuthState()
 Get better-auth instance (in server)
 
 ```typescript
-export default eventHandler(() => {
-	const betterAuth = useBetterAuth()
+export default eventHandler((event) => {
+	const betterAuth = useBetterAuth(event)
 })
 ```
 
-If use singleton for request, please put event to `useBetterAuth`, or used asyncContext first then you don't need that anymore.
+Instances are created lazily and cached per resolved baseURL, so pass the event inside request handlers to resolve against the request's URL. If you enable [async context](https://nuxt.com/docs/api/nuxt-config#asynccontext), the event is picked up automatically and you can call `useBetterAuth()` without it.
 
-```typescript
-export default eventHandler(async (event) => {
-	const betterAuth = useBetterAuth(event)
+```typescript [nuxt.config.ts]
+export default defineNuxtConfig({
+	experimental: {
+		asyncContext: true,
+	},
 })
 ```
 
