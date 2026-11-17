@@ -8,7 +8,7 @@
 		"generate": "nuxi generate"
 	},
 	"dependencies": {
-		"better-auth": "^1.7.1",
+		"better-auth": "^1.7.25",
 		"nuxt": "^4.6.4",
 		"nuxt-better-auth": "workspace:*"
 	}
