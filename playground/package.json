@@ -9,7 +9,7 @@
 	},
 	"dependencies": {
 		"better-auth": "^1.7.1",
-		"nuxt": "^4.5.2",
+		"nuxt": "^4.6.4",
 		"nuxt-better-auth": "workspace:*"
 	}
 }

@@ -1,0 +1,5 @@
+{
+	"name": "auto-secret",
+	"type": "module",
+	"private": true
+}
