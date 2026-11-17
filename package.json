@@ -21,8 +21,8 @@
 			"import": "./dist/module.mjs"
 		},
 		"./config": {
-			"types": "./dist/runtime/config.d.ts",
-			"import": "./dist/runtime/config.js"
+			"types": "./dist/config.d.mts",
+			"import": "./dist/config.mjs"
 		}
 	},
 	"main": "./dist/module.mjs",
@@ -32,7 +32,7 @@
 				"./dist/types.d.mts"
 			],
 			"config": [
-				"./dist/runtime/config.d.ts"
+				"./dist/config.d.mts"
 			]
 		}
 	},

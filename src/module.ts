@@ -60,6 +60,8 @@ export default defineNuxtModule<ModuleOptions>({
 	async setup(options, nuxt) {
 		const resolver = createResolver(import.meta.url)
 
+		nuxt.options.alias['nuxt-better-auth/config'] = resolver.resolve('./runtime/config')
+
 		setupRuntimeConfig(nuxt)
 
 		addImports([
