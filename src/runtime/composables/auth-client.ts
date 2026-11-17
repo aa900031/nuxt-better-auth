@@ -6,5 +6,5 @@ export function useAuthClient(): AuthClientResult {
 	if (nuxtApp.$betterAuthClient == null)
 		throw new Error('Please setup better-auth first')
 
-	return nuxtApp.$betterAuthClient
+	return nuxtApp.$betterAuthClient()
 }

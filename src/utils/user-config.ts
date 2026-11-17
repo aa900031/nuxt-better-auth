@@ -35,7 +35,7 @@ async function genConfigLoaderContent(
 
 	if (filepath == null) {
 		return /* javascript */`
-export default () => {}
+export default (..._args) => {}
 `
 	}
 

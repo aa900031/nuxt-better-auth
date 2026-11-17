@@ -36,27 +36,6 @@ export default defineNuxtConfig({
 })
 ```
 
-> [!TIP]
-> When you are using Postgresql as database with Hyperdrive in Cloudflare Worker, you should setup server singleton by request.
-
-```typescript [nuxt.config.ts]
-export default defineNuxtConfig({
-	modules: ['nuxt-better-auth'],
-	// Setup server singleton by request
-	betterAuth: {
-		server: {
-			singleton: 'request',
-		},
-	},
-	// [Optional] Enable async context: https://nitro.build/guide/utils#async-context-experimental
-	nitro: {
-		experimental: {
-			asyncContext: true,
-		},
-	},
-})
-```
-
 ## Usage
 
 Create sign in / sign out button with useAuthClient
@@ -93,36 +72,62 @@ const { session, user } = useAuthState()
 Get better-auth instance (in server)
 
 ```typescript
-export default eventHandler(() => {
-	const betterAuth = useBetterAuth()
+export default eventHandler((event) => {
+	const betterAuth = useBetterAuth(event)
 })
 ```
 
-If use singleton for request, please put event to `useBetterAuth`, or used asyncContext first then you don't need that anymore.
+Instances are created lazily and cached per resolved baseURL, so pass the event inside request handlers to resolve against the request's URL. If you enable [async context](https://nuxt.com/docs/api/nuxt-config#asynccontext), the event is picked up automatically and you can call `useBetterAuth()` without it.
 
-```typescript
-export default eventHandler(async (event) => {
-	const betterAuth = useBetterAuth(event)
+```typescript [nuxt.config.ts]
+export default defineNuxtConfig({
+	experimental: {
+		asyncContext: true,
+	},
 })
 ```
 
 ## Custom options
 
-Can provide options by file, and with some magic to make it type safe.
+Can provide options by file, and use the helpers from `nuxt-better-auth/config` to make it type safe.
 
 ### Client options
 
 Create file at nuxt's src dir (default same as root dir), e.g: `better-auth/client-options.ts` or `app/better-auth/client-options.ts` in nuxt 4
 
 ```typescript [better-auth/client-options.ts]
-import type { ClientOptions } from 'better-auth'
 import { anonymousClient } from 'better-auth/client/plugins'
+import { defineAuthClientOptions } from 'nuxt-better-auth/config'
 
-export default () => ({
+export default defineAuthClientOptions(() => ({
 	plugins: [
 		anonymousClient(),
 	],
-} satisfies ClientOptions)
+}))
+```
+
+The factory receives a context with the resolved `baseURL`:
+
+```typescript [better-auth/client-options.ts]
+import { defineAuthClientOptions } from 'nuxt-better-auth/config'
+
+export default defineAuthClientOptions(({ baseURL }) => ({
+	// ...
+}))
+```
+
+### Forwarded headers (SSR)
+
+During SSR, the auth client forwards an allowlist of incoming request headers to auth requests. The default is `['cookie', 'authorization']`, covering cookie sessions and the bearer plugin. Configure it via the module option (the list replaces the default entirely, so include `cookie` when extending it):
+
+```typescript [nuxt.config.ts]
+export default defineNuxtConfig({
+	betterAuth: {
+		client: {
+			forwardHeaders: ['cookie', 'authorization', 'x-api-key'],
+		},
+	},
+})
 ```
 
 ### Server options
@@ -130,14 +135,24 @@ export default () => ({
 Create file at nuxt's server dir (default is `server/`), e.g: `server/better-auth/server-options.ts`
 
 ```typescript [server/better-auth/server-options.ts]
-import type { BetterAuthOptions } from 'better-auth'
 import { anonymous } from 'better-auth/plugins'
+import { defineAuthServerOptions } from 'nuxt-better-auth/config'
 
-export default () => ({
+export default defineAuthServerOptions(() => ({
 	plugins: [
 		anonymous(),
 	],
-} satisfies BetterAuthOptions)
+}))
+```
+
+The factory receives a context with the resolved `basePath` and `baseURL`:
+
+```typescript [server/better-auth/server-options.ts]
+import { defineAuthServerOptions } from 'nuxt-better-auth/config'
+
+export default defineAuthServerOptions(({ basePath, baseURL }) => ({
+	// ...
+}))
 ```
 
 ## License
