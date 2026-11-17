@@ -1,12 +1,13 @@
-autoInstallPeers: false
+minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
   - nitro-better-auth@0.3.1 || 0.4.0
 
-shamefullyHoist: true
-shellEmulator: true
-strictPeerDependencies: false
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 432000
+autoInstallPeers: false
+strictPeerDependencies: false
+shamefullyHoist: true
+shellEmulator: true
 
 packages:
   - ./
