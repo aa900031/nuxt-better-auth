@@ -8,13 +8,11 @@ export default defineConfig({
 		],
 		coverage: {
 			provider: 'istanbul',
+			reportsDirectory: './.vitest/coverage',
 			exclude: [
 				...coverageConfigDefaults.exclude,
 				'playground/**',
 			],
-		},
-		outputFile: {
-			junit: './reports/junit.xml',
 		},
 	},
 })

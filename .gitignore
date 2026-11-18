@@ -28,10 +28,9 @@ dist
 .env
 
 # Testing
-reports
-coverage
 *.lcov
 .nyc_output
+.vitest/
 
 # VSCode
 .vscode/*

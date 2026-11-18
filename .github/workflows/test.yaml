@@ -28,9 +28,6 @@ jobs:
       - name: Run Prepare
         run: pnpm run dev:prepare
 
-      # - name: Run Typecheck
-      #   run: pnpm run typecheck
-
       - name: Run Test
         run: pnpm run test --coverage --reporter=junit
 
@@ -38,10 +35,28 @@ jobs:
         uses: codecov/codecov-action@v5
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          directory: ./.vitest/coverage
 
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./reports/junit.xml
+          files: ./.vitest/junit/output.xml
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup
+        uses: aa900031/github-actions/setup-node@main
+        with:
+          no-turbo-cache: 'true'
+
+      - name: Run Prepare
+        run: pnpm run dev:prepare
+
+      - name: Run Typecheck
+        run: pnpm run typecheck
