@@ -1,8 +1,7 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { Plugin } from 'vite'
 import type { ModuleOptions } from '../module'
-import { existsSync } from 'node:fs'
-import { addTemplate, addTypeTemplate, addVitePlugin, getLayerDirectories, resolvePath, useNuxt } from '@nuxt/kit'
+import { addTemplate, addTypeTemplate, addVitePlugin, findPath, getLayerDirectories, useNuxt } from '@nuxt/kit'
 import { isAbsolute } from 'pathe'
 import { genClientOptions } from '../templates/client-options'
 import { genTypeClientOptions } from '../templates/type-client-options'
@@ -51,9 +50,9 @@ export async function resolveFilePath(
 		: getLayerDirectories(nuxt).map(dirs => dirs[kind])
 
 	for (const cwd of cwds) {
-		const absolutePath = await resolvePath(path, { cwd })
-		if (existsSync(absolutePath))
-			return absolutePath
+		const found = await findPath(path, { cwd })
+		if (found != null)
+			return found
 	}
 
 	return undefined
