@@ -1,10 +1,10 @@
 import type { ModuleOptions } from '../module'
 import { addTemplate } from '@nuxt/kit'
-import { genServerOptions } from '../templates/server-options'
+import { genModuleOptions } from '../templates/module-options'
 
-const BUILD_FILENAME = 'better-auth/server-options.mjs'
+const BUILD_FILENAME = 'better-auth/module-options.mjs'
 
-export function addServerOptions(
+export function addModuleOptions(
 	options: ModuleOptions,
 ): void {
 	const mountPath = options.server?.mountPath
@@ -12,7 +12,7 @@ export function addServerOptions(
 
 	addTemplate({
 		filename: BUILD_FILENAME,
-		getContents: () => genServerOptions(mountPath, forwardHeaders),
+		getContents: () => genModuleOptions(mountPath, forwardHeaders),
 		write: true,
 	})
 }

@@ -1,4 +1,4 @@
-export function genServerOptions(
+export function genModuleOptions(
 	mountPath: string | undefined,
 	forwardHeaders: string[] | undefined,
 ): string {

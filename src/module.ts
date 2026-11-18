@@ -3,9 +3,9 @@ import { createResolver, defineNuxtModule } from '@nuxt/kit'
 import { addAuthClient } from './utils/auth-client'
 import { addAuthSecret } from './utils/auth-secret'
 import { addAuthState } from './utils/auth-state'
+import { addModuleOptions } from './utils/module-options'
 import { setupRuntimeConfig } from './utils/runtime-config'
 import { addServerModule } from './utils/server-module'
-import { addServerOptions } from './utils/server-options'
 import { addUserConfig } from './utils/user-config'
 
 export interface ModuleOptions {
@@ -58,10 +58,12 @@ export default defineNuxtModule<ModuleOptions>({
 		nuxt.options.alias['nuxt-better-auth/config'] = resolver.resolve('./runtime/config')
 
 		setupRuntimeConfig(nuxt)
+		addModuleOptions(options)
+
 		addAuthClient(resolver)
 		addUserConfig(options, nuxt)
 		addAuthState(options, resolver)
-		addServerOptions(options)
+
 		await addAuthSecret(resolver, nuxt)
 		await addServerModule(options, nuxt)
 	},
