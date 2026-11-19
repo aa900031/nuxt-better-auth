@@ -9,11 +9,10 @@ describe('nuxt layer', async () => {
 
 	it('should render with client options provided by the layer', async () => {
 		const html = await $fetch('/')
+		// The `ping` action only exists when the plugin from the layer's
+		// client-options is loaded.
+		expect(html).contain('Ping: pong')
 		expect(html).contain('User: null')
-		expect(html).contain('Sign In')
-		// `signIn.anonymous` only exists when `anonymousClient()` from the
-		// layer's client-options is loaded.
-		expect(html).contain('Anonymous Sign In: true')
 	})
 
 	it('should load server options provided by the layer', async () => {

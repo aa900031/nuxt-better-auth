@@ -1,11 +1,17 @@
 /* eslint-disable ts/explicit-function-return-type */
-import type { BetterAuthClientOptions } from 'better-auth'
-import { anonymousClient } from 'better-auth/client/plugins'
+import type { BetterAuthClientOptions, BetterAuthClientPlugin } from 'better-auth'
+
+const pingPlugin = {
+	id: 'ping',
+	getActions: () => ({
+		ping: () => 'pong',
+	}),
+} satisfies BetterAuthClientPlugin
 
 export default function () {
 	return {
 		plugins: [
-			anonymousClient(),
+			pingPlugin,
 		],
 	} satisfies BetterAuthClientOptions
 }
