@@ -60,10 +60,8 @@ async function resolveOptionPlugins(
 		const options = nuxt.options._layers[i]?.config.betterAuth as ModuleOptions | undefined
 		if (!directory || !options)
 			continue
-		if (options.server?.plugins?.length)
-			resolved.server.push(...await resolveSourcesFromOptions(options.server.plugins, directory))
-		if (options.client?.plugins?.length)
-			resolved.client.push(...await resolveSourcesFromOptions(options.client.plugins, directory))
+		resolved.server.push(...await resolveSourcesFromOptions(options.server?.plugins ?? [], directory))
+		resolved.client.push(...await resolveSourcesFromOptions(options.client?.plugins ?? [], directory))
 	}
 	return resolved
 }

@@ -6,11 +6,11 @@ import { resolveFilePath } from './user-config'
 
 const EXTENDED_FILENAME = 'better-auth/server-options.extended.ts'
 
-export async function addServerModule(
+export function addServerModule(
 	options: ModuleOptions,
 	plugins: Promise<PluginSources>,
 	nuxt = useNuxt(),
-): Promise<void> {
+): void {
 	nuxt.options.build.transpile ??= []
 	nuxt.options.build.transpile.push('nitro-better-auth')
 
@@ -20,19 +20,18 @@ export async function addServerModule(
 	const { plugins: _plugins, ...serverOptions } = options.server ?? {}
 
 	const pathFromServer = serverOptions.options?.path
-	const resolvedPath = pathFromServer != null
-		? await resolveFilePath('server', pathFromServer, nuxt)
-		: undefined
 
 	const template = addTemplate({
 		filename: EXTENDED_FILENAME,
-		getContents: async () =>
-			genServerOptionsExtended(resolvedPath, (await plugins).server),
+		getContents: async ({ nuxt }) => genServerOptionsExtended(
+			pathFromServer != null ? await resolveFilePath('server', pathFromServer, nuxt) : undefined,
+			(await plugins).server,
+		),
 		write: true,
 	})
 
-	serverOptions.options ??= { path: template.dst }
-	serverOptions.options.path = template.dst
-
-	nuxt.options.nitro.betterAuth = serverOptions
+	nuxt.options.nitro.betterAuth = {
+		...serverOptions,
+		options: { ...serverOptions.options, path: template.dst },
+	}
 }

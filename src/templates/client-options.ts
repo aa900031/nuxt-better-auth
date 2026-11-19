@@ -8,6 +8,9 @@ export function genClientOptions(
 	plugins: string[],
 	nuxt: Nuxt,
 ): string {
+	const loaderImport = filepath
+		? genImport(filepath, '_loader')
+		: 'const _loader = (..._args) => ({})'
 	const pluginImports = plugins
 		.map((path, index) => genImport(path, `_plugin${index}`))
 		.join('\n')
@@ -15,29 +18,11 @@ export function genClientOptions(
 		.map((_, index) => `_plugin${index}`)
 		.join(', ')
 
-	if (filepath == null) {
-		if (plugins.length === 0) {
-			return /* javascript */`
-export default (..._args) => {}
-`
-		}
-
-		return /* javascript */`
-${pluginImports}
-
-export default (..._args) => ({
-	plugins: [${pluginNames}],
-})
-`
-	}
-
-	const relativeFilepath = relative(nuxt.options.buildDir, filepath)
-
 	let hmr = ''
-	if (nuxt.options.dev) {
+	if (filepath && nuxt.options.dev) {
 		hmr = /* javascript */`
 if (import.meta.hot) {
-  import.meta.hot.accept(${genString(relativeFilepath)}, async (mod) => {
+  import.meta.hot.accept(${genString(relative(nuxt.options.buildDir, filepath))}, async (mod) => {
     loader = mod.default
     import.meta.hot.send(${genString(`hmr-user-config:${src}`)})
   })
@@ -45,22 +30,8 @@ if (import.meta.hot) {
 `
 	}
 
-	const exported = plugins.length === 0
-		? /* javascript */`
-export default loader
-`
-		: /* javascript */`
-export default (...args) => {
-	const options = loader(...args) ?? {}
-	return {
-		...options,
-		plugins: [...(options.plugins ?? []), ${pluginNames}],
-	}
-}
-`
-
 	return /* javascript */`
-${genImport(filepath, '_loader')}
+${loaderImport}
 ${pluginImports}
 
 let loader = _loader
@@ -68,6 +39,13 @@ let loader = _loader
 /** client **/
 ${hmr}
 /** client-end **/
-${exported}
+
+export default (...args) => {
+	const options = loader(...args) ?? {}
+	return {
+		...options,
+		plugins: [...(options.plugins ?? [])${pluginNames ? `, ${pluginNames}` : ''}],
+	}
+}
 `
 }

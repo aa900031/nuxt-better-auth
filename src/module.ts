@@ -82,7 +82,7 @@ export default defineNuxtModule<ModuleOptions>({
 		addAuthState(options, resolver)
 
 		await addAuthSecret(resolver, nuxt)
-		await addUserConfig(options, plugins, nuxt)
-		await addServerModule(options, plugins, nuxt)
+		addUserConfig(options, plugins, nuxt)
+		addServerModule(options, plugins, nuxt)
 	},
 })

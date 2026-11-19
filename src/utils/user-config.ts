@@ -3,35 +3,32 @@ import type { Plugin } from 'vite'
 import type { ModuleOptions } from '../module'
 import type { PluginSources } from './plugins'
 import { addTemplate, addTypeTemplate, addVitePlugin, findPath, getLayerDirectories, useNuxt } from '@nuxt/kit'
-import { isAbsolute } from 'pathe'
 import { genClientOptions } from '../templates/client-options'
 import { genTypeClientOptions } from '../templates/type-client-options'
 
 const BUILD_FILENAME = 'better-auth/client-options.mjs'
 const TYPE_FILENAME = 'types/better-auth/client-options.d.ts'
 
-export async function addUserConfig(
+export function addUserConfig(
 	options: ModuleOptions,
 	plugins: Promise<PluginSources>,
 	nuxt = useNuxt(),
-): Promise<void> {
+): void {
 	const src = options.client?.options?.path
 	if (!src) {
 		throw new Error('[nuxt-better-auth] `client.options.path` is required.')
 	}
 
-	const clientPath = await resolveFilePath('app', src, nuxt)
-
 	addTemplate({
 		filename: BUILD_FILENAME,
 		getContents: async ({ nuxt }) =>
-			genClientOptions(src, clientPath, (await plugins).client, nuxt),
+			genClientOptions(src, await resolveFilePath('app', src, nuxt), (await plugins).client, nuxt),
 	})
 
 	addTypeTemplate({
 		filename: TYPE_FILENAME,
 		getContents: async ({ nuxt }) =>
-			genTypeClientOptions(TYPE_FILENAME, clientPath, (await plugins).client, nuxt),
+			genTypeClientOptions(TYPE_FILENAME, await resolveFilePath('app', src, nuxt), (await plugins).client, nuxt),
 		write: true,
 	}, {
 		nuxt: true,
@@ -49,11 +46,7 @@ export async function resolveFilePath(
 	path: string,
 	nuxt: Nuxt,
 ): Promise<string | undefined> {
-	const cwds = isAbsolute(path)
-		? kind === 'app' ? [nuxt.options.appDir] : [nuxt.options.serverDir]
-		: getLayerDirectories(nuxt).map(dirs => dirs[kind])
-
-	for (const cwd of cwds) {
+	for (const cwd of getLayerDirectories(nuxt).map(dirs => dirs[kind])) {
 		const found = await findPath(path, { cwd })
 		if (found != null)
 			return found
