@@ -43,10 +43,6 @@ export default defineNuxtModule<ModuleOptions>({
 			state: {
 				enabled: true,
 			},
-			forwardHeaders: [
-				'cookie',
-				'authorization',
-			],
 		},
 		server: {
 			mountPath: '/api/auth',

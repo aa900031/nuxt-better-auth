@@ -8,7 +8,7 @@ export function addModuleOptions(
 	options: ModuleOptions,
 ): void {
 	const mountPath = options.server?.mountPath
-	const forwardHeaders = options.client?.forwardHeaders
+	const forwardHeaders = options.client?.forwardHeaders ?? ['cookie', 'authorization']
 
 	addTemplate({
 		filename: BUILD_FILENAME,
