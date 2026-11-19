@@ -11,6 +11,9 @@ describe('nuxt layer', async () => {
 		const html = await $fetch('/')
 		expect(html).contain('User: null')
 		expect(html).contain('Sign In')
+		// `signIn.anonymous` only exists when `anonymousClient()` from the
+		// layer's client-options is loaded.
+		expect(html).contain('Anonymous Sign In: true')
 	})
 
 	it('should load server options provided by the layer', async () => {
