@@ -2,6 +2,10 @@
 const authClient = useAuthClient()
 const { session, user } = await useAuthState()
 const { data, refresh, error } = useFetch('/api/check')
+const pingResult = ref<string | null>(null)
+const fooResult = ref<string | null>(null)
+const pingCount = ref(0)
+const fooCount = ref(0)
 
 async function handleSignInClick() {
 	await authClient.signIn.anonymous()
@@ -14,6 +18,16 @@ async function handleSignOutClick() {
 async function handleClickRefetch() {
 	await refresh()
 }
+
+function handlePingClick() {
+	pingResult.value = authClient.ping()
+	pingCount.value++
+}
+
+function handleFooClick() {
+	fooResult.value = authClient.foo()
+	fooCount.value++
+}
 </script>
 
 <template>
@@ -22,6 +36,18 @@ async function handleClickRefetch() {
 	</p>
 	<p>
 		Session: {{ session === null ? 'null' : session }}
+	</p>
+	<p>
+		<button @click="handlePingClick">
+			Ping
+		</button>
+		: {{ pingResult }} {{ pingCount ? `- ${pingCount}` : undefined }}
+	</p>
+	<p>
+		<button @click="handleFooClick">
+			Foo
+		</button>
+		: {{ fooResult }} {{ fooCount ? `- ${fooCount}` : undefined }}
 	</p>
 	<button
 		v-if="session == null"

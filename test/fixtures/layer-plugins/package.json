@@ -1,0 +1,5 @@
+{
+	"name": "layer-plugins",
+	"type": "module",
+	"private": true
+}
