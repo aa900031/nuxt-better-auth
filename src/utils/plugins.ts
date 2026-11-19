@@ -1,4 +1,3 @@
-import type { LayerDirectories } from '@nuxt/kit'
 import type { ModuleOptions } from '../module'
 import { findPath, getLayerDirectories, useNuxt } from '@nuxt/kit'
 import { isAbsolute } from 'pathe'
@@ -9,11 +8,12 @@ export interface PluginSources {
 }
 
 export function resolvePlugins(
+	options: ModuleOptions,
 	nuxt = useNuxt(),
 ): Promise<PluginSources> {
 	return new Promise((resolve) => {
 		nuxt.hook('modules:done', async () => {
-			const pluginsFromOptions = await resolveOptionPlugins(nuxt)
+			const pluginsFromOptions = await resolveOptionPlugins(options, nuxt)
 			const pluginsFromHook = await resolveHookPlugins(nuxt)
 			const registered: PluginSources = {
 				client: [
@@ -41,59 +41,82 @@ async function resolveHookPlugins(
 	await nuxt.callHook('better-auth:plugins:extend', registered)
 
 	return {
-		server: await resolveSourcesFromHook(registered.server),
-		client: await resolveSourcesFromHook(registered.client),
+		server: await resolveAbsoluteSources(registered.server, '`plugins.server` from `better-auth:plugins:extend`'),
+		client: await resolveAbsoluteSources(registered.client, '`plugins.client` from `better-auth:plugins:extend`'),
 	}
 }
 
 async function resolveOptionPlugins(
+	options: ModuleOptions,
 	nuxt = useNuxt(),
 ): Promise<PluginSources> {
 	const resolved: PluginSources = {
 		server: [],
 		client: [],
 	}
-
-	const directories = getLayerDirectories(nuxt)
-	for (let i = 0; i < directories.length; i++) {
-		const directory = directories[i]
-		const options = nuxt.options._layers[i]?.config.betterAuth as ModuleOptions | undefined
-		if (!directory || !options)
-			continue
-		resolved.server.push(...await resolveSourcesFromOptions(options.server?.plugins ?? [], directory))
-		resolved.client.push(...await resolveSourcesFromOptions(options.client?.plugins ?? [], directory))
+	const undeclared: PluginSources = {
+		server: [...options.server?.plugins ?? []],
+		client: [...options.client?.plugins ?? []],
 	}
+
+	for (const [index, directory] of getLayerDirectories(nuxt).entries()) {
+		const layerOptions = nuxt.options._layers[index]?.config.betterAuth as ModuleOptions | undefined
+		if (!layerOptions)
+			continue
+		const server = layerOptions.server?.plugins ?? []
+		const client = layerOptions.client?.plugins ?? []
+		resolved.server.push(...await resolveLayerSources(server, `\`server.plugins\` in \`${directory.root}\``, directory.server))
+		resolved.client.push(...await resolveLayerSources(client, `\`client.plugins\` in \`${directory.root}\``, directory.app))
+		removeDeclared(undeclared.server, server)
+		removeDeclared(undeclared.client, client)
+	}
+
+	resolved.server.push(...await resolveAbsoluteSources(undeclared.server, '`server.plugins` not declared in any layer config'))
+	resolved.client.push(...await resolveAbsoluteSources(undeclared.client, '`client.plugins` not declared in any layer config'))
 	return resolved
 }
 
-async function resolveSourcesFromHook(
+function removeDeclared(
+	merged: string[],
+	declared: string[],
+): void {
+	for (const source of declared) {
+		const index = merged.indexOf(source)
+		if (index !== -1)
+			merged.splice(index, 1)
+	}
+}
+
+async function resolveAbsoluteSources(
 	sources: string[],
+	from: string,
 ): Promise<string[]> {
 	const result: string[] = []
 	for (const source of sources) {
-		assertSourceIsString(source, '`better-auth:plugins:extend`')
+		assertSourceIsString(source, from)
 		if (!isAbsolute(source))
-			throw new Error(`[nuxt-better-auth] Plugin source from \`better-auth:plugins:extend\` must be an absolute path: ${source}`)
+			throw new Error(`[nuxt-better-auth] Plugin source from ${from} must be an absolute path: ${source}`)
 
 		const absolutePath = await findPath(source)
 		if (absolutePath == null)
-			throw new Error(`[nuxt-better-auth] Cannot resolve plugin source \`${source}\` from \`better-auth:plugins:extend\`.`)
+			throw new Error(`[nuxt-better-auth] Plugin source from ${from} cannot be resolved: ${source}`)
 
 		result.push(absolutePath)
 	}
 	return result
 }
 
-async function resolveSourcesFromOptions(
+async function resolveLayerSources(
 	sources: string[],
-	directory: LayerDirectories,
+	from: string,
+	cwd: string,
 ): Promise<string[]> {
 	const result: string[] = []
 	for (const source of sources) {
-		assertSourceIsString(source, `\`plugins\` in \`${directory.root}\``)
-		const absolutePath = await findPath(source, { cwd: directory.root })
+		assertSourceIsString(source, from)
+		const absolutePath = await findPath(source, { cwd })
 		if (absolutePath == null)
-			throw new Error(`[nuxt-better-auth] Cannot resolve plugin source \`${source}\` from \`${directory.root}\`.`)
+			throw new Error(`[nuxt-better-auth] Plugin source from ${from} cannot be resolved: ${source}`)
 
 		result.push(absolutePath)
 	}
@@ -105,5 +128,5 @@ function assertSourceIsString(
 	from: string,
 ): asserts source is string {
 	if (typeof source !== 'string')
-		throw new TypeError(`[nuxt-better-auth] Plugin source from ${from} must be a string, got ${typeof source}.`)
+		throw new TypeError(`[nuxt-better-auth] Plugin source from ${from} must be a string: ${typeof source}`)
 }

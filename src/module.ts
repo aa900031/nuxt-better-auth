@@ -71,7 +71,7 @@ export default defineNuxtModule<ModuleOptions>({
 	},
 	async setup(options, nuxt) {
 		const resolver = createResolver(import.meta.url)
-		const plugins = resolvePlugins(nuxt)
+		const plugins = resolvePlugins(options, nuxt)
 
 		nuxt.options.alias['nuxt-better-auth/config'] = resolver.resolve('./runtime/config')
 

@@ -23,6 +23,7 @@ export function addUserConfig(
 		filename: BUILD_FILENAME,
 		getContents: async ({ nuxt }) =>
 			genClientOptions(src, await resolveFilePath('app', src, nuxt), (await plugins).client, nuxt),
+		write: true,
 	})
 
 	addTypeTemplate({

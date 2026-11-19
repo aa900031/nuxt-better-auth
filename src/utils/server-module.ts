@@ -2,9 +2,11 @@ import type { ModuleOptions } from '../module'
 import type { PluginSources } from './plugins'
 import { addTemplate, useNuxt } from '@nuxt/kit'
 import { genServerOptionsExtended } from '../templates/server-options-extended'
+import { genTypeServerOptionsExtended } from '../templates/type-server-options-extended'
 import { resolveFilePath } from './user-config'
 
-const EXTENDED_FILENAME = 'better-auth/server-options.extended.ts'
+const BUILD_FILENAME = 'better-auth/server-options.extended.js'
+const TYPE_FILENAME = 'better-auth/server-options.extended.d.ts'
 
 export function addServerModule(
 	options: ModuleOptions,
@@ -22,10 +24,21 @@ export function addServerModule(
 	const pathFromServer = serverOptions.options?.path
 
 	const template = addTemplate({
-		filename: EXTENDED_FILENAME,
+		filename: BUILD_FILENAME,
 		getContents: async ({ nuxt }) => genServerOptionsExtended(
 			pathFromServer != null ? await resolveFilePath('server', pathFromServer, nuxt) : undefined,
 			(await plugins).server,
+		),
+		write: true,
+	})
+
+	addTemplate({
+		filename: TYPE_FILENAME,
+		getContents: async ({ nuxt }) => genTypeServerOptionsExtended(
+			TYPE_FILENAME,
+			pathFromServer != null ? await resolveFilePath('server', pathFromServer, nuxt) : undefined,
+			(await plugins).server,
+			nuxt,
 		),
 		write: true,
 	})

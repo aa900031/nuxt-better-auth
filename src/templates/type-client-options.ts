@@ -22,7 +22,7 @@ ${genImport('better-auth/client', ['createAuthClient'])}
 ${targetPath ? genImport(relative(outputDir, targetPath), 'ClientOptionsLoader') : ''}
 ${pluginImports}
 
-type BaseOptions = ${targetPath ? 'ReturnType<typeof ClientOptionsLoader>' : '{}'}
+type BaseOptions = ${targetPath ? 'NonNullable<ReturnType<typeof ClientOptionsLoader>>' : '{}'}
 type BasePlugins = BaseOptions extends { plugins: infer P extends readonly unknown[] } ? P : []
 
 export type AuthClientOptions = Omit<BaseOptions, 'plugins'> & {

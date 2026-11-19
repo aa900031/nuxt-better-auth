@@ -9,7 +9,7 @@ export default defineNuxtConfig({
 			plugins: ['./better-auth/ping-plugin'],
 		},
 		server: {
-			plugins: ['./server/better-auth/ping-plugin'],
+			plugins: ['./better-auth/ping-plugin'],
 		},
 	},
 })
