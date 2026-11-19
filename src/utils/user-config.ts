@@ -24,6 +24,7 @@ export function addUserConfig(
 		getContents: async ({ nuxt }) =>
 			genClientOptions(src, await resolveFilePath('app', src, nuxt), (await plugins).client, nuxt),
 		write: true,
+		dependsOn: [],
 	})
 
 	addTypeTemplate({
@@ -31,6 +32,7 @@ export function addUserConfig(
 		getContents: async ({ nuxt }) =>
 			genTypeClientOptions(TYPE_FILENAME, await resolveFilePath('app', src, nuxt), (await plugins).client, nuxt),
 		write: true,
+		dependsOn: [],
 	}, {
 		nuxt: true,
 	})

@@ -1,7 +1,7 @@
 import type { BetterAuthClientPlugin } from 'better-auth'
 
 export default {
-	id: 'foo-client',
+	id: 'foo',
 	getActions: () => ({
 		foo: () => 'bar',
 	}),

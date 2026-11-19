@@ -1,6 +1,8 @@
 import type { Nuxt } from '@nuxt/schema'
 import { genImport } from 'knitwork'
-import { dirname, join, relative } from 'pathe'
+import { dirname, join } from 'pathe'
+import { relativeWithDot } from './paths'
+import { genPluginEntries, genPluginImports } from './plugins'
 
 export function genTypeClientOptions(
 	filename: string,
@@ -10,23 +12,16 @@ export function genTypeClientOptions(
 ): string {
 	const outputDir = dirname(join(nuxt.options.buildDir, filename))
 
-	const pluginImports = plugins
-		.map((path, index) => genImport(relative(outputDir, path), `_plugin${index}`))
-		.join('\n')
-	const pluginTypes = plugins
-		.map((_, index) => `typeof _plugin${index}`)
-		.join(', ')
-
 	return /* typescript */`
 ${genImport('better-auth/client', ['createAuthClient'])}
-${targetPath ? genImport(relative(outputDir, targetPath), 'ClientOptionsLoader') : ''}
-${pluginImports}
+${targetPath ? genImport(relativeWithDot(outputDir, targetPath), 'ClientOptionsLoader') : ''}
+${genPluginImports(plugins, path => relativeWithDot(outputDir, path))}
 
 type BaseOptions = ${targetPath ? 'NonNullable<ReturnType<typeof ClientOptionsLoader>>' : '{}'}
 type BasePlugins = BaseOptions extends { plugins: infer P extends readonly unknown[] } ? P : []
 
 export type AuthClientOptions = Omit<BaseOptions, 'plugins'> & {
-	plugins: [...BasePlugins${pluginTypes ? `, ${pluginTypes}` : ''}]
+	plugins: [...BasePlugins${genPluginEntries(plugins, name => `typeof ${name}`)}]
 }
 
 export type AuthClientResult = ReturnType<typeof createAuthClient<AuthClientOptions>>

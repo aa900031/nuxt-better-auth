@@ -1,6 +1,8 @@
 import type { Nuxt } from '@nuxt/schema'
 import { genImport } from 'knitwork'
-import { dirname, join, relative } from 'pathe'
+import { dirname, join } from 'pathe'
+import { relativeWithDot } from './paths'
+import { genPluginEntries, genPluginImports } from './plugins'
 
 export function genTypeServerOptionsExtended(
 	filename: string,
@@ -11,24 +13,18 @@ export function genTypeServerOptionsExtended(
 	const outputDir = dirname(join(nuxt.options.buildDir, filename))
 
 	const loaderImport = filepath
-		? genImport(relative(outputDir, filepath), '_loader')
+		? genImport(relativeWithDot(outputDir, filepath), '_loader')
 		: 'declare const _loader: (..._args: unknown[]) => {}'
-	const pluginImports = plugins
-		.map((path, index) => genImport(relative(outputDir, path), `_plugin${index}`))
-		.join('\n')
-	const pluginTypes = plugins
-		.map((_, index) => `typeof _plugin${index}`)
-		.join(', ')
 
 	return /* typescript */`
 ${loaderImport}
-${pluginImports}
+${genPluginImports(plugins, path => relativeWithDot(outputDir, path))}
 
 type _Options = NonNullable<ReturnType<typeof _loader>>
 type _Plugins = _Options extends { plugins: infer P extends readonly unknown[] } ? P : []
 
 declare const _default: (...args: Parameters<typeof _loader>) => Omit<_Options, 'plugins'> & {
-	plugins: [..._Plugins${pluginTypes ? `, ${pluginTypes}` : ''}]
+	plugins: [..._Plugins${genPluginEntries(plugins, name => `typeof ${name}`)}]
 }
 
 export default _default

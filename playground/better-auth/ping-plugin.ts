@@ -1,7 +1,7 @@
 import type { BetterAuthClientPlugin } from 'better-auth'
 
 export default {
-	id: 'ping-client',
+	id: 'ping',
 	getActions: () => ({
 		ping: () => 'pong',
 	}),

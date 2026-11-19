@@ -1,4 +1,5 @@
 import { genImport } from 'knitwork'
+import { genPluginEntries, genPluginImports } from './plugins'
 
 export function genServerOptionsExtended(
 	filepath: string | undefined,
@@ -7,22 +8,16 @@ export function genServerOptionsExtended(
 	const loaderImport = filepath
 		? genImport(filepath, '_loader')
 		: 'const _loader = (..._args) => ({})'
-	const pluginImports = plugins
-		.map((path, index) => genImport(path, `_plugin${index}`))
-		.join('\n')
-	const pluginNames = plugins
-		.map((_, index) => `_plugin${index}`)
-		.join(', ')
 
 	return /* javascript */`
 ${loaderImport}
-${pluginImports}
+${genPluginImports(plugins)}
 
 export default (...args) => {
 	const options = _loader(...args) ?? {}
 	return {
 		...options,
-		plugins: [...(options.plugins ?? [])${pluginNames ? `, ${pluginNames}` : ''}],
+		plugins: [...(options.plugins ?? [])${genPluginEntries(plugins)}],
 	}
 }
 `

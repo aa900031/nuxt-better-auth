@@ -1,6 +1,7 @@
 import type { Nuxt } from '@nuxt/schema'
 import { genImport, genString } from 'knitwork'
 import { relative } from 'pathe'
+import { genPluginEntries, genPluginImports } from './plugins'
 
 export function genClientOptions(
 	src: string,
@@ -11,12 +12,6 @@ export function genClientOptions(
 	const loaderImport = filepath
 		? genImport(filepath, '_loader')
 		: 'const _loader = (..._args) => ({})'
-	const pluginImports = plugins
-		.map((path, index) => genImport(path, `_plugin${index}`))
-		.join('\n')
-	const pluginNames = plugins
-		.map((_, index) => `_plugin${index}`)
-		.join(', ')
 
 	let hmr = ''
 	if (filepath && nuxt.options.dev) {
@@ -32,7 +27,7 @@ if (import.meta.hot) {
 
 	return /* javascript */`
 ${loaderImport}
-${pluginImports}
+${genPluginImports(plugins)}
 
 let loader = _loader
 
@@ -44,7 +39,7 @@ export default (...args) => {
 	const options = loader(...args) ?? {}
 	return {
 		...options,
-		plugins: [...(options.plugins ?? [])${pluginNames ? `, ${pluginNames}` : ''}],
+		plugins: [...(options.plugins ?? [])${genPluginEntries(plugins)}],
 	}
 }
 `

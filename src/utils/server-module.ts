@@ -30,6 +30,7 @@ export function addServerModule(
 			(await plugins).server,
 		),
 		write: true,
+		dependsOn: [],
 	})
 
 	addTemplate({
@@ -41,6 +42,7 @@ export function addServerModule(
 			nuxt,
 		),
 		write: true,
+		dependsOn: [],
 	})
 
 	nuxt.options.nitro.betterAuth = {
