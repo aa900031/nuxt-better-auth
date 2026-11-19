@@ -50,7 +50,7 @@
 		"typecheck": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
 	},
 	"peerDependencies": {
-		"@nuxt/kit": "^3.19.3 || ^4.0.0",
+		"@nuxt/kit": "^3.19.3 || ^4.1.0",
 		"better-auth": "^1.2.0",
 		"defu": "^6.1.4",
 		"knitwork": "^1.2.0",

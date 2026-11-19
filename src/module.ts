@@ -31,6 +31,9 @@ export default defineNuxtModule<ModuleOptions>({
 	meta: {
 		name: 'nuxt-better-auth',
 		configKey: 'betterAuth',
+		compatibility: {
+			nuxt: '^3.19.3 || ^4.1.0',
+		},
 	},
 	defaults: {
 		client: {
