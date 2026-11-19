@@ -1,5 +1,5 @@
 import type { Nuxt } from '@nuxt/schema'
-import { genImport } from 'knitwork'
+import { genImport, genString } from 'knitwork'
 import { relative } from 'pathe'
 
 export function genClientOptions(
@@ -19,9 +19,9 @@ export default (..._args) => {}
 	if (nuxt.options.dev) {
 		hmr = /* javascript */`
 if (import.meta.hot) {
-  import.meta.hot.accept('${relativeFilepath}', async (mod) => {
+  import.meta.hot.accept(${genString(relativeFilepath)}, async (mod) => {
     loader = mod.default
-    import.meta.hot.send('hmr-user-config:${src}')
+    import.meta.hot.send(${genString(`hmr-user-config:${src}`)})
   })
 }
 `
