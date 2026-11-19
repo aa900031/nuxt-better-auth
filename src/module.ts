@@ -1,14 +1,15 @@
 import type { ModuleOptions as NitroModuleOptions } from 'nitro-better-auth'
-import { addImports, addPlugin, addTypeTemplate, createResolver, defineNuxtModule } from '@nuxt/kit'
-import defu from 'defu'
-import { addServerOptions } from './templates/server-options'
-import { genTypeClientOptions } from './templates/type-client-options'
+import { createResolver, defineNuxtModule } from '@nuxt/kit'
+import { addAuthClient } from './utils/auth-client'
 import { addAuthSecret } from './utils/auth-secret'
+import { addAuthState } from './utils/auth-state'
+import { addModuleOptions } from './utils/module-options'
 import { setupRuntimeConfig } from './utils/runtime-config'
+import { addServerModule } from './utils/server-module'
 import { addUserConfig } from './utils/user-config'
 
 export interface ModuleOptions {
-	client: {
+	client?: {
 		options?: {
 			path: string
 		}
@@ -23,19 +24,16 @@ export interface ModuleOptions {
 		 */
 		forwardHeaders?: string[]
 	}
-	server: NitroModuleOptions
-}
-
-export interface ModuleRuntimeConfig {
-	baseURL?: string
-	basePath?: string
-	secret?: string
+	server?: NitroModuleOptions
 }
 
 export default defineNuxtModule<ModuleOptions>({
 	meta: {
 		name: 'nuxt-better-auth',
 		configKey: 'betterAuth',
+		compatibility: {
+			nuxt: '^3.19.3 || ^4.1.0',
+		},
 	},
 	defaults: {
 		client: {
@@ -45,10 +43,6 @@ export default defineNuxtModule<ModuleOptions>({
 			state: {
 				enabled: true,
 			},
-			forwardHeaders: [
-				'cookie',
-				'authorization',
-			],
 		},
 		server: {
 			mountPath: '/api/auth',
@@ -63,49 +57,13 @@ export default defineNuxtModule<ModuleOptions>({
 		nuxt.options.alias['nuxt-better-auth/config'] = resolver.resolve('./runtime/config')
 
 		setupRuntimeConfig(nuxt)
+		addModuleOptions(options)
 
-		addImports([
-			{
-				name: 'useAuthClient',
-				from: resolver.resolve('./runtime/composables/auth-client'),
-			},
-		])
-		addPlugin(
-			resolver.resolve('./runtime/plugins/auth-client'),
-		)
-		addUserConfig({
-			src: options.client.options!.path,
-			build: 'better-auth/client-options.mjs',
-		}, nuxt)
-		addTypeTemplate({
-			filename: 'types/better-auth/client-options.d.ts',
-			getContents: () =>
-				genTypeClientOptions('types/better-auth/client-options.d.ts', options, nuxt),
-			write: true,
-		}, {
-			nuxt: true,
-		})
+		addAuthClient(resolver)
+		addUserConfig(options, nuxt)
+		addAuthState(options, resolver)
 
-		if (options.client.state!.enabled) {
-			addImports([
-				{
-					name: 'useAuthState',
-					from: resolver.resolve('./runtime/composables/auth-state'),
-				},
-				{
-					name: 'useGetAuthSession',
-					from: resolver.resolve('./runtime/composables/get-auth-session'),
-				},
-			])
-		}
-
-		addServerOptions(options)
-		await addAuthSecret(nuxt, resolver)
-
-		nuxt.options.build.transpile.push('nitro-better-auth')
-
-		nuxt.options.nitro.modules ??= []
-		nuxt.options.nitro.modules.push('nitro-better-auth')
-		nuxt.options.nitro.betterAuth = defu({}, options.server)
+		await addAuthSecret(resolver, nuxt)
+		await addServerModule(options, nuxt)
 	},
 })

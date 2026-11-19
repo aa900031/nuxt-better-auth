@@ -9,7 +9,7 @@ import { env } from 'std-env'
 import { joinURL } from 'ufo'
 import { defineNuxtPlugin, useRequestHeaders, useRequestURL, useState } from '#app'
 import loadClientOptions from '#build/better-auth/client-options.mjs'
-import { forwardHeaders, mountPath } from '#build/better-auth/server-options.mjs'
+import { forwardHeaders, mountPath } from '#build/better-auth/module-options.mjs'
 import { useRuntimeConfig } from '#imports'
 
 interface PublicServerConfig {

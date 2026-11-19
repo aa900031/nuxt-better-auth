@@ -1,15 +1,12 @@
 import type { Nuxt } from '@nuxt/schema'
-import type { ModuleOptions } from '../module'
 import { genImport } from 'knitwork'
 import { dirname, join, relative } from 'pathe'
-import { resolveFilePath } from '../utils/user-config'
 
-export async function genTypeClientOptions(
+export function genTypeClientOptions(
 	filename: string,
-	options: ModuleOptions,
+	targetPath: string | undefined,
 	nuxt: Nuxt,
-): Promise<string> {
-	const targetPath = await resolveFilePath(options.client.options!.path, nuxt)
+): string {
 	if (!targetPath) {
 		return /* typescript */`
 ${genImport('better-auth/client', ['createAuthClient'])}

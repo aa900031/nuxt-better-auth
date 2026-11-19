@@ -12,6 +12,7 @@
 
 - Flexable use better-auth
 - Type safe
+- [Nuxt Layers](https://nuxt.com/docs/getting-started/layers) support
 
 ## Installation
 
@@ -154,6 +155,29 @@ export default defineAuthServerOptions(({ basePath, baseURL }) => ({
 	// ...
 }))
 ```
+
+## Nuxt Layers
+
+Enable the module once in a base [layer](https://nuxt.com/docs/getting-started/layers), and every app extending it gets the whole auth setup:
+
+```typescript [my-layer/nuxt.config.ts]
+export default defineNuxtConfig({
+	modules: ['nuxt-better-auth'],
+})
+```
+
+```typescript [nuxt.config.ts]
+export default defineNuxtConfig({
+	extends: ['./my-layer'],
+})
+```
+
+The options files are resolved across layers: each layer is searched in priority order — the project first, then extended layers — and the first file found wins.
+
+- Client options: `better-auth/client-options` relative to each layer's src dir
+- Server options: `better-auth/server-options` relative to each layer's server dir
+
+So a layer can ship default options (plugins, database adapter, …), and an app overrides them by creating its own file at the same path. Files are not merged — only the one from the highest-priority layer is loaded.
 
 ## License
 

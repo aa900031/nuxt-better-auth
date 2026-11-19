@@ -1,85 +1,61 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { Plugin } from 'vite'
-import { existsSync } from 'node:fs'
-import { addTemplate, addVitePlugin, resolvePath, useNuxt } from '@nuxt/kit'
-import { genImport } from 'knitwork'
-import { relative } from 'pathe'
+import type { ModuleOptions } from '../module'
+import { addTemplate, addTypeTemplate, addVitePlugin, findPath, getLayerDirectories, useNuxt } from '@nuxt/kit'
+import { isAbsolute } from 'pathe'
+import { genClientOptions } from '../templates/client-options'
+import { genTypeClientOptions } from '../templates/type-client-options'
+
+const BUILD_FILENAME = 'better-auth/client-options.mjs'
+const TYPE_FILENAME = 'types/better-auth/client-options.d.ts'
 
 export function addUserConfig(
-	filenames: {
-		src: string
-		build: string
-	},
+	options: ModuleOptions,
 	nuxt = useNuxt(),
 ): void {
+	const src = options.client?.options?.path
+	if (!src) {
+		throw new Error('[nuxt-better-auth] `client.options.path` is required.')
+	}
+
 	addTemplate({
-		filename: filenames.build,
-		getContents: ({ nuxt }) => genConfigLoaderContent(filenames, nuxt),
+		filename: BUILD_FILENAME,
+		getContents: async ({ nuxt }) =>
+			genClientOptions(src, await resolveFilePath(src, nuxt), nuxt),
+	})
+
+	addTypeTemplate({
+		filename: TYPE_FILENAME,
+		getContents: async () =>
+			genTypeClientOptions(TYPE_FILENAME, await resolveFilePath(src, nuxt), nuxt),
+		write: true,
+	}, {
+		nuxt: true,
 	})
 
 	if (nuxt.options.dev) {
 		addVitePlugin(
-			createHmrPlugin(filenames.build, filenames.src),
+			createHmrPlugin(BUILD_FILENAME, src),
 		)
 	}
-}
-
-async function genConfigLoaderContent(
-	filenames: {
-		src: string
-		build: string
-	},
-	nuxt: Nuxt,
-): Promise<string> {
-	const filepath = await resolveFilePath(filenames.src, nuxt)
-
-	if (filepath == null) {
-		return /* javascript */`
-export default (..._args) => {}
-`
-	}
-
-	const relativeFilepath = relative(nuxt.options.buildDir, filepath)
-
-	let hmr = ''
-	if (nuxt.options.dev) {
-		hmr = /* javascript */`
-if (import.meta.hot) {
-  import.meta.hot.accept('${relativeFilepath}', async (mod) => {
-    loader = mod.default
-    import.meta.hot.send('hmr-user-config:${filenames.src}')
-  })
-}
-`
-	}
-
-	return /* javascript */`
-${genImport(filepath, '_loader')}
-
-let loader = _loader
-
-/** client **/
-${hmr}
-/** client-end **/
-
-export default loader
-`
 }
 
 export async function resolveFilePath(
 	path: string,
 	nuxt: Nuxt,
+	kind: 'app' | 'server' = 'app',
 ): Promise<string | undefined> {
-	const absolutePath = await resolvePath(
-		path,
-		{
-			cwd: nuxt.options.srcDir,
-		},
-	)
-	if (!existsSync(absolutePath))
-		return undefined
+	const cwds = isAbsolute(path)
+		? [nuxt.options.srcDir]
+		: getLayerDirectories(nuxt).map(dirs => dirs[kind])
 
-	return absolutePath
+	for (const cwd of cwds) {
+		const found = await findPath(path, { cwd })
+		if (found != null)
+			return found
+	}
+
+	return undefined
 }
 
 function createHmrPlugin(
