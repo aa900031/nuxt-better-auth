@@ -1,7 +1,5 @@
 import { defineDiagnostics } from 'nostics'
 
-// R1xxx: runtime codes shared by client and server. R2xxx (server-only) lives
-// in `server/diagnostics.ts`.
 export const diagnostics = /* #__PURE__ */ defineDiagnostics({
 	codes: {
 		NUXT_BETTER_AUTH_R1001: {

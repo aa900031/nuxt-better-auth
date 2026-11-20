@@ -16,7 +16,7 @@ export const diagnostics = /* #__PURE__ */ defineDiagnostics({
 		},
 		NUXT_BETTER_AUTH_C0004: {
 			why: (p: { from: string, source: string }) => `Plugin source from ${p.from} cannot be resolved: ${p.source}`,
-			fix: 'Check that the file exists. Relative sources in a layer config resolve against that layer\'s `app/` (client) or `server/` (server) directory.',
+			fix: 'Check that the file exists. Relative sources in a layer config resolve against that layer\'s `srcDir` (client) or `server/` (server) directory.',
 		},
 	},
 })
