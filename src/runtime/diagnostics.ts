@@ -11,8 +11,8 @@ export const diagnostics = /* #__PURE__ */ defineDiagnostics({
 			why: '`event.context.betterAuth` is not available: the nitro-better-auth server plugin did not run for this request.',
 		},
 		NUXT_BETTER_AUTH_R1003: {
-			why: 'Could not resolve the better-auth baseURL in production.',
-			fix: 'Set `runtimeConfig.public.betterAuth.baseURL` (`NUXT_PUBLIC_BETTER_AUTH_BASE_URL`), `runtimeConfig.public.siteUrl` (`NUXT_PUBLIC_SITE_URL`), or the `BETTER_AUTH_URL` environment variable.',
+			why: 'Could not resolve the better-auth baseURL in production: `runtimeConfig.public.betterAuth.baseURL`, the better-auth server `baseURL` (or `BETTER_AUTH_URL`), and `runtimeConfig.public.siteUrl` are all empty.',
+			fix: 'Set one of them, e.g. with `NUXT_PUBLIC_BETTER_AUTH_BASE_URL`, `BETTER_AUTH_URL`, or `NUXT_PUBLIC_SITE_URL`.',
 		},
 	},
 })
