@@ -2,6 +2,7 @@ import type { betterAuth as createBetterAuth } from 'better-auth'
 import type { InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
 import type { AuthClientOptions, AuthClientResult } from '#build/types/better-auth/client-options'
 import { useNuxtApp, useRequestEvent } from '#app'
+import { hasServer } from '#build/better-auth/module-options.mjs'
 import { diagnostics } from '../diagnostics'
 
 export interface AuthSessionData {
@@ -15,6 +16,8 @@ export function useGetAuthSession(): () => Promise<AuthSessionData | null> {
 
 	return import.meta.server
 		? async () => {
+			if (!hasServer)
+				throw diagnostics.NUXT_BETTER_AUTH_R1005()
 			const betterAuth = event?.context.betterAuth as ReturnType<typeof createBetterAuth> | undefined
 			if (!betterAuth)
 				throw diagnostics.NUXT_BETTER_AUTH_R1002()

@@ -2,6 +2,7 @@ import type { BetterFetchError } from 'better-auth/client'
 import type { Ref } from '#imports'
 import type { AuthSessionData } from './get-auth-session'
 import { useAsyncData, useNuxtApp, useRequestEvent } from '#app'
+import { hasServer } from '#build/better-auth/module-options.mjs'
 import { getCurrentScope, onScopeDispose, toRef, unref, useAuthClient, useGetAuthSession } from '#imports'
 
 export interface AuthState {
@@ -33,6 +34,7 @@ export function useAuthState(): AuthState & Promise<AuthState> {
 		{
 			default: () => DEFAULT_STATE,
 			dedupe: 'defer',
+			server: hasServer,
 		},
 	)
 	if (import.meta.client) {

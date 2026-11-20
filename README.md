@@ -119,7 +119,7 @@ export default defineAuthClientOptions(({ baseURL }) => ({
 
 ### Forwarded headers (SSR)
 
-During SSR, the auth client forwards an allowlist of incoming request headers to auth requests. The default is `['cookie', 'authorization']`, covering cookie sessions and the bearer plugin. Configure it via the module option (the list replaces the default entirely, so include `cookie` when extending it):
+During SSR, the auth client forwards an allowlist of incoming request headers to auth requests. The default is `['cookie', 'authorization']`, covering cookie sessions and the bearer plugin (`[]` with [`server: false`](#external-better-auth-server)). Configure it via the module option (the list replaces the default entirely, so include `cookie` when extending it):
 
 ```typescript [nuxt.config.ts]
 export default defineNuxtConfig({
@@ -155,6 +155,22 @@ export default defineAuthServerOptions(({ basePath, baseURL }) => ({
 	// ...
 }))
 ```
+
+## External better-auth server
+
+When better-auth runs on a separate server, set `server: false`. Only the auth client is set up: no server options file, auth routes, or secret are needed in this app.
+
+```typescript [nuxt.config.ts]
+export default defineNuxtConfig({
+	betterAuth: {
+		server: false,
+	},
+})
+```
+
+Point the client at the external server with `NUXT_PUBLIC_BETTER_AUTH_BASE_URL` (`runtimeConfig.public.betterAuth.baseURL`), or return `baseURL` from the client options factory. `runtimeConfig.public.siteUrl` is not used as a fallback, since it is this site's URL. `runtimeConfig.public.betterAuth.basePath` is appended to it if set; when the URL has no path, better-auth appends its default `/api/auth`.
+
+The session is not fetched during SSR: `useAuthState()` renders with a `null` session on the server and fetches it on the client after hydration. For the same reason, no request headers are forwarded to the external server during SSR unless `client.forwardHeaders` is set.
 
 ## Nuxt Layers
 
