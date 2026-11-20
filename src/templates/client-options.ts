@@ -1,25 +1,23 @@
 import type { Nuxt } from '@nuxt/schema'
 import { genImport, genString } from 'knitwork'
 import { relative } from 'pathe'
+import { genPluginEntries, genPluginImports } from './plugins'
 
 export function genClientOptions(
 	src: string,
 	filepath: string | undefined,
+	plugins: string[],
 	nuxt: Nuxt,
 ): string {
-	if (filepath == null) {
-		return /* javascript */`
-export default (..._args) => {}
-`
-	}
-
-	const relativeFilepath = relative(nuxt.options.buildDir, filepath)
+	const loaderImport = filepath
+		? genImport(filepath, '_loader')
+		: 'const _loader = (..._args) => ({})'
 
 	let hmr = ''
-	if (nuxt.options.dev) {
+	if (filepath && nuxt.options.dev) {
 		hmr = /* javascript */`
 if (import.meta.hot) {
-  import.meta.hot.accept(${genString(relativeFilepath)}, async (mod) => {
+  import.meta.hot.accept(${genString(relative(nuxt.options.buildDir, filepath))}, async (mod) => {
     loader = mod.default
     import.meta.hot.send(${genString(`hmr-user-config:${src}`)})
   })
@@ -28,7 +26,8 @@ if (import.meta.hot) {
 	}
 
 	return /* javascript */`
-${genImport(filepath, '_loader')}
+${loaderImport}
+${genPluginImports(plugins)}
 
 let loader = _loader
 
@@ -36,6 +35,12 @@ let loader = _loader
 ${hmr}
 /** client-end **/
 
-export default loader
+export default (...args) => {
+	const options = loader(...args) ?? {}
+	return {
+		...options,
+		plugins: [...(options.plugins ?? [])${genPluginEntries(plugins)}],
+	}
+}
 `
 }

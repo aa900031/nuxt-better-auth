@@ -5,6 +5,8 @@ const { session, user } = useAuthState()
 
 <template>
 	<p>Ping: {{ authClient.ping() }}</p>
+	<p>Foo: {{ authClient.foo() }}</p>
+	<p>Bar: {{ authClient.bar() }}</p>
 	<p>User: {{ user === null ? 'null' : user }}</p>
 	<p>Session: {{ session === null ? 'null' : session }}</p>
 </template>

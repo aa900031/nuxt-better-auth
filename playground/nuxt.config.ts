@@ -5,8 +5,11 @@ export default defineNuxtConfig({
 	],
 	devtools: { enabled: true },
 	betterAuth: {
+		client: {
+			plugins: ['./better-auth/ping-plugin'],
+		},
 		server: {
-			singleton: 'app',
+			plugins: ['./better-auth/ping-plugin'],
 		},
 	},
 })

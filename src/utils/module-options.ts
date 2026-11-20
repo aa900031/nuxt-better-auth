@@ -14,5 +14,6 @@ export function addModuleOptions(
 		filename: BUILD_FILENAME,
 		getContents: () => genModuleOptions(mountPath, forwardHeaders),
 		write: true,
+		dependsOn: [],
 	})
 }

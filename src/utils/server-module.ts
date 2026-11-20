@@ -1,26 +1,52 @@
 import type { ModuleOptions } from '../module'
-import { useNuxt } from '@nuxt/kit'
+import type { PluginSources } from './plugins'
+import { addTemplate, useNuxt } from '@nuxt/kit'
+import { genServerOptionsExtended } from '../templates/server-options-extended'
+import { genTypeServerOptionsExtended } from '../templates/type-server-options-extended'
 import { resolveFilePath } from './user-config'
 
-export async function addServerModule(
+const BUILD_FILENAME = 'better-auth/server-options.extended.js'
+const TYPE_FILENAME = 'better-auth/server-options.extended.d.ts'
+
+export function addServerModule(
 	options: ModuleOptions,
+	plugins: Promise<PluginSources>,
 	nuxt = useNuxt(),
-): Promise<void> {
+): void {
 	nuxt.options.build.transpile ??= []
 	nuxt.options.build.transpile.push('nitro-better-auth')
 
 	nuxt.options.nitro.modules ??= []
 	nuxt.options.nitro.modules.push('nitro-better-auth')
 
-	const serverOptions = options.server ??= {}
-	const pathFromServer = serverOptions.options?.path
-	if (pathFromServer != null) {
-		const resolvedServerOptionsPath = await resolveFilePath(pathFromServer, nuxt, 'server')
-		if (resolvedServerOptionsPath != null) {
-			serverOptions.options ??= { path: resolvedServerOptionsPath }
-			serverOptions.options.path = resolvedServerOptionsPath
-		}
-	}
+	const { plugins: _plugins, ...serverOptions } = options.server ?? {}
 
-	nuxt.options.nitro.betterAuth = serverOptions
+	const pathFromServer = serverOptions.options?.path
+
+	const template = addTemplate({
+		filename: BUILD_FILENAME,
+		getContents: async ({ nuxt }) => genServerOptionsExtended(
+			pathFromServer != null ? await resolveFilePath('server', pathFromServer, nuxt) : undefined,
+			(await plugins).server,
+		),
+		write: true,
+		dependsOn: [],
+	})
+
+	addTemplate({
+		filename: TYPE_FILENAME,
+		getContents: async ({ nuxt }) => genTypeServerOptionsExtended(
+			TYPE_FILENAME,
+			pathFromServer != null ? await resolveFilePath('server', pathFromServer, nuxt) : undefined,
+			(await plugins).server,
+			nuxt,
+		),
+		write: true,
+		dependsOn: [],
+	})
+
+	nuxt.options.nitro.betterAuth = {
+		...serverOptions,
+		options: { ...serverOptions.options, path: template.dst },
+	}
 }

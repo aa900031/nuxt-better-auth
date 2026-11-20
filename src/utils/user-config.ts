@@ -1,8 +1,8 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { Plugin } from 'vite'
 import type { ModuleOptions } from '../module'
+import type { PluginSources } from './plugins'
 import { addTemplate, addTypeTemplate, addVitePlugin, findPath, getLayerDirectories, useNuxt } from '@nuxt/kit'
-import { isAbsolute } from 'pathe'
 import { genClientOptions } from '../templates/client-options'
 import { genTypeClientOptions } from '../templates/type-client-options'
 
@@ -11,6 +11,7 @@ const TYPE_FILENAME = 'types/better-auth/client-options.d.ts'
 
 export function addUserConfig(
 	options: ModuleOptions,
+	plugins: Promise<PluginSources>,
 	nuxt = useNuxt(),
 ): void {
 	const src = options.client?.options?.path
@@ -21,14 +22,17 @@ export function addUserConfig(
 	addTemplate({
 		filename: BUILD_FILENAME,
 		getContents: async ({ nuxt }) =>
-			genClientOptions(src, await resolveFilePath(src, nuxt), nuxt),
+			genClientOptions(src, await resolveFilePath('app', src, nuxt), (await plugins).client, nuxt),
+		write: true,
+		dependsOn: [],
 	})
 
 	addTypeTemplate({
 		filename: TYPE_FILENAME,
-		getContents: async () =>
-			genTypeClientOptions(TYPE_FILENAME, await resolveFilePath(src, nuxt), nuxt),
+		getContents: async ({ nuxt }) =>
+			genTypeClientOptions(TYPE_FILENAME, await resolveFilePath('app', src, nuxt), (await plugins).client, nuxt),
 		write: true,
+		dependsOn: [],
 	}, {
 		nuxt: true,
 	})
@@ -41,15 +45,11 @@ export function addUserConfig(
 }
 
 export async function resolveFilePath(
+	kind: 'app' | 'server',
 	path: string,
 	nuxt: Nuxt,
-	kind: 'app' | 'server' = 'app',
 ): Promise<string | undefined> {
-	const cwds = isAbsolute(path)
-		? [nuxt.options.srcDir]
-		: getLayerDirectories(nuxt).map(dirs => dirs[kind])
-
-	for (const cwd of cwds) {
+	for (const cwd of getLayerDirectories(nuxt).map(dirs => dirs[kind])) {
 		const found = await findPath(path, { cwd })
 		if (found != null)
 			return found

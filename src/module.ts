@@ -1,9 +1,12 @@
+import type { HookResult } from '@nuxt/schema'
 import type { ModuleOptions as NitroModuleOptions } from 'nitro-better-auth'
+import type { PluginSources } from './utils/plugins'
 import { createResolver, defineNuxtModule } from '@nuxt/kit'
 import { addAuthClient } from './utils/auth-client'
 import { addAuthSecret } from './utils/auth-secret'
 import { addAuthState } from './utils/auth-state'
 import { addModuleOptions } from './utils/module-options'
+import { resolvePlugins } from './utils/plugins'
 import { setupRuntimeConfig } from './utils/runtime-config'
 import { addServerModule } from './utils/server-module'
 import { addUserConfig } from './utils/user-config'
@@ -23,8 +26,23 @@ export interface ModuleOptions {
 		 * @default ['cookie', 'authorization']
 		 */
 		forwardHeaders?: string[]
+		plugins?: string[]
 	}
-	server?: NitroModuleOptions
+	server?:
+		& NitroModuleOptions
+		& {
+			plugins?: string[]
+		}
+}
+
+export type { PluginSources }
+
+declare module '@nuxt/schema' {
+	interface NuxtHooks {
+		'better-auth:plugins:extend': (
+			plugins: PluginSources,
+		) => HookResult
+	}
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -53,6 +71,7 @@ export default defineNuxtModule<ModuleOptions>({
 	},
 	async setup(options, nuxt) {
 		const resolver = createResolver(import.meta.url)
+		const plugins = resolvePlugins(options, nuxt)
 
 		nuxt.options.alias['nuxt-better-auth/config'] = resolver.resolve('./runtime/config')
 
@@ -60,10 +79,10 @@ export default defineNuxtModule<ModuleOptions>({
 		addModuleOptions(options)
 
 		addAuthClient(resolver)
-		addUserConfig(options, nuxt)
 		addAuthState(options, resolver)
 
 		await addAuthSecret(resolver, nuxt)
-		await addServerModule(options, nuxt)
+		addUserConfig(options, plugins, nuxt)
+		addServerModule(options, plugins, nuxt)
 	},
 })
