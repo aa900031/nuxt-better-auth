@@ -46,4 +46,9 @@ describe('plugin sources', () => {
 		})
 		await expect(loadNuxt({ cwd: rootDir, overrides: nuxtConfig })).rejects.toSatisfy(diagnostics.NUXT_BETTER_AUTH_C0004.is)
 	})
+
+	it('should reject layer sources that do not exist', async () => {
+		const { rootDir, nuxtConfig } = setupOptions('missing-plugin')
+		await expect(loadNuxt({ cwd: rootDir, overrides: nuxtConfig })).rejects.toSatisfy(diagnostics.NUXT_BETTER_AUTH_C0004.is)
+	})
 })
