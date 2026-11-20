@@ -3,6 +3,7 @@ import type { Plugin } from 'vite'
 import type { ModuleOptions } from '../module'
 import type { PluginSources } from './plugins'
 import { addTemplate, addTypeTemplate, addVitePlugin, findPath, getLayerDirectories, useNuxt } from '@nuxt/kit'
+import { diagnostics } from '../diagnostics'
 import { genClientOptions } from '../templates/client-options'
 import { genTypeClientOptions } from '../templates/type-client-options'
 
@@ -16,7 +17,7 @@ export function addUserConfig(
 ): void {
 	const src = options.client?.options?.path
 	if (!src) {
-		throw new Error('[nuxt-better-auth] `client.options.path` is required.')
+		throw diagnostics.NUXT_BETTER_AUTH_C0001()
 	}
 
 	addTemplate({

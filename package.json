@@ -59,7 +59,8 @@
 		"ufo": "^1.5.0"
 	},
 	"dependencies": {
-		"nitro-better-auth": "^0.4.0"
+		"nitro-better-auth": "^0.4.0",
+		"nostics": "^1.4.0"
 	},
 	"devDependencies": {
 		"@aa900031/eslint-config": "^8.0.4",

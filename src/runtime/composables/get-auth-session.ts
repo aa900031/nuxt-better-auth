@@ -2,6 +2,7 @@ import type { betterAuth as createBetterAuth } from 'better-auth'
 import type { InferSessionFromClient, InferUserFromClient } from 'better-auth/client'
 import type { AuthClientOptions, AuthClientResult } from '#build/types/better-auth/client-options'
 import { useNuxtApp, useRequestEvent } from '#app'
+import { diagnostics } from '../diagnostics'
 
 export interface AuthSessionData {
 	session: Omit<InferSessionFromClient<AuthClientOptions>, 'token'>
@@ -16,7 +17,7 @@ export function useGetAuthSession(): () => Promise<AuthSessionData | null> {
 		? async () => {
 			const betterAuth = event?.context.betterAuth as ReturnType<typeof createBetterAuth> | undefined
 			if (!betterAuth)
-				throw new Error('Please setup better-auth first')
+				throw diagnostics.NUXT_BETTER_AUTH_R1002()
 			const data = await betterAuth.api.getSession({
 				headers: event?.headers ?? {},
 			})
@@ -25,7 +26,7 @@ export function useGetAuthSession(): () => Promise<AuthSessionData | null> {
 		: async () => {
 			const getAuthClient = nuxtApp.$betterAuthClient as ((() => AuthClientResult) | undefined)
 			if (!getAuthClient)
-				throw new Error('Please setup better-auth first')
+				throw diagnostics.NUXT_BETTER_AUTH_R1001()
 			const { data, error } = await getAuthClient().getSession()
 			if (error)
 				throw error

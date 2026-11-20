@@ -1,8 +1,10 @@
 import type { NitroRuntimeConfig } from 'nitropack/types'
 import process from 'node:process'
 import { useRuntimeConfig } from 'nitropack/runtime'
+import { formatDiagnostic } from 'nostics'
 import { env } from 'std-env'
 import { deriveSecret } from '#nuxt-better-auth/app-secret'
+import { diagnostics } from '../diagnostics'
 
 const PURPOSE = 'better-auth:secret'
 
@@ -17,7 +19,10 @@ export async function deriveAuthSecret(): Promise<void> {
 		process.env.BETTER_AUTH_SECRET = secret
 	}
 	catch (error) {
-		console.warn('[nuxt-better-auth] Could not derive the better-auth secret from NUXT_APP_SECRET. Set NUXT_APP_SECRET (at least 32 characters), or set the secret explicitly with NUXT_BETTER_AUTH_SECRET or BETTER_AUTH_SECRET.', error)
+		console.warn(
+			formatDiagnostic(diagnostics.NUXT_BETTER_AUTH_R2001()),
+			error,
+		)
 	}
 }
 
