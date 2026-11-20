@@ -1,6 +1,7 @@
-import { defineDiagnostics } from 'nostics'
+import { createConsoleReporter, defineDiagnostics } from 'nostics'
 
 export const diagnostics = /* #__PURE__ */ defineDiagnostics({
+	reporters: [createConsoleReporter({ method: 'error' })],
 	codes: {
 		NUXT_BETTER_AUTH_C0001: {
 			why: '`client.options.path` is required.',
