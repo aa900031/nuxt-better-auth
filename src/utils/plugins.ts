@@ -1,6 +1,7 @@
 import type { ModuleOptions } from '../module'
 import { findPath, getLayerDirectories, useNuxt } from '@nuxt/kit'
 import { isAbsolute } from 'pathe'
+import { diagnostics } from '../diagnostics'
 
 export interface PluginSources {
 	server: string[]
@@ -95,11 +96,11 @@ async function resolveAbsoluteSources(
 	for (const source of sources) {
 		assertSourceIsString(source, from)
 		if (!isAbsolute(source))
-			throw new Error(`[nuxt-better-auth] Plugin source from ${from} must be an absolute path: ${source}`)
+			throw diagnostics.NUXT_BETTER_AUTH_C0003({ from, source })
 
 		const absolutePath = await findPath(source)
 		if (absolutePath == null)
-			throw new Error(`[nuxt-better-auth] Plugin source from ${from} cannot be resolved: ${source}`)
+			throw diagnostics.NUXT_BETTER_AUTH_C0004({ from, source })
 
 		result.push(absolutePath)
 	}
@@ -116,7 +117,7 @@ async function resolveLayerSources(
 		assertSourceIsString(source, from)
 		const absolutePath = await findPath(source, { cwd })
 		if (absolutePath == null)
-			throw new Error(`[nuxt-better-auth] Plugin source from ${from} cannot be resolved: ${source}`)
+			throw diagnostics.NUXT_BETTER_AUTH_C0004({ from, source })
 
 		result.push(absolutePath)
 	}
@@ -128,5 +129,5 @@ function assertSourceIsString(
 	from: string,
 ): asserts source is string {
 	if (typeof source !== 'string')
-		throw new TypeError(`[nuxt-better-auth] Plugin source from ${from} must be a string: ${typeof source}`)
+		throw diagnostics.NUXT_BETTER_AUTH_C0002({ from, type: typeof source })
 }

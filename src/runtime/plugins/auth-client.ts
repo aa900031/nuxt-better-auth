@@ -11,6 +11,7 @@ import { defineNuxtPlugin, useRequestHeaders, useRequestURL, useState } from '#a
 import loadClientOptions from '#build/better-auth/client-options.mjs'
 import { forwardHeaders, mountPath } from '#build/better-auth/module-options.mjs'
 import { useRuntimeConfig } from '#imports'
+import { diagnostics } from '../diagnostics'
 
 interface PublicServerConfig {
 	baseURL?: string
@@ -113,12 +114,7 @@ function resolveUrl(
 		origin = requestURL.origin
 	}
 	else {
-		throw new Error(
-			'[nuxt-better-auth] Could not resolve the better-auth baseURL in production. '
-			+ 'Set `runtimeConfig.public.betterAuth.baseURL` (NUXT_PUBLIC_BETTER_AUTH_BASE_URL), '
-			+ '`runtimeConfig.public.siteUrl` (NUXT_PUBLIC_SITE_URL), '
-			+ 'or the BETTER_AUTH_URL environment variable.',
-		)
+		throw diagnostics.NUXT_BETTER_AUTH_R1003()
 	}
 	return joinURL(origin, basePath)
 }

@@ -1,10 +1,10 @@
 import { fileURLToPath } from 'node:url'
 import { $fetch, setup } from '@nuxt/test-utils/e2e'
 import { describe, expect, it } from 'vitest'
+import { setupOptions } from './setup-options'
 
 describe('nuxt layer', async () => {
-	await setup({
-		rootDir: fileURLToPath(new URL('./fixtures/layer', import.meta.url)),
+	await setup(setupOptions('layer', {
 		// Overrides never appear in `_layers`, like inline module options or
 		// `moduleDependencies`, so this source is not declared by any layer.
 		nuxtConfig: {
@@ -14,7 +14,7 @@ describe('nuxt layer', async () => {
 				},
 			},
 		},
-	})
+	}))
 
 	it('should render with client options provided by the layer', async () => {
 		const html = await $fetch('/')
