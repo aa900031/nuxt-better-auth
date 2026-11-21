@@ -23,16 +23,23 @@ export interface ModuleOptions {
 		 * Allowlist of request headers forwarded to auth client requests during SSR.
 		 * Replaces the default entirely, so include `cookie` when extending it.
 		 *
-		 * @default ['cookie', 'authorization']
+		 * @default ['cookie', 'authorization'], or `[]` when `server` is `false`
 		 */
 		forwardHeaders?: string[]
 		plugins?: string[]
 	}
+	/**
+	 * Set to `false` when better-auth runs on an external server:
+	 * only the auth client is set up, and the session is fetched on the client.
+	 */
 	server?:
-		& NitroModuleOptions
-		& {
-			plugins?: string[]
-		}
+		| false
+		| (
+			& NitroModuleOptions
+			& {
+				plugins?: string[]
+			}
+		)
 }
 
 export type { PluginSources }
@@ -75,13 +82,13 @@ export default defineNuxtModule<ModuleOptions>({
 
 		nuxt.options.alias['nuxt-better-auth/config'] = resolver.resolve('./runtime/config')
 
-		setupRuntimeConfig(nuxt)
+		setupRuntimeConfig(options, nuxt)
 		addModuleOptions(options)
 
 		addAuthClient(resolver)
 		addAuthState(options, resolver)
 
-		await addAuthSecret(resolver, nuxt)
+		await addAuthSecret(options, resolver, nuxt)
 		addUserConfig(options, plugins, nuxt)
 		addServerModule(options, plugins, nuxt)
 	},

@@ -2,6 +2,7 @@ import type { ModuleOptions } from '../module'
 import { findPath, getLayerDirectories, useNuxt } from '@nuxt/kit'
 import { isAbsolute } from 'pathe'
 import { diagnostics } from '../diagnostics'
+import { isServerEnabled } from './module-options'
 
 export interface PluginSources {
 	server: string[]
@@ -51,12 +52,13 @@ async function resolveOptionPlugins(
 	options: ModuleOptions,
 	nuxt = useNuxt(),
 ): Promise<PluginSources> {
+	const serverEnabled = isServerEnabled(options)
 	const resolved: PluginSources = {
 		server: [],
 		client: [],
 	}
 	const undeclared: PluginSources = {
-		server: [...options.server?.plugins ?? []],
+		server: [...serverEnabled ? options.server?.plugins ?? [] : []],
 		client: [...options.client?.plugins ?? []],
 	}
 
@@ -64,7 +66,9 @@ async function resolveOptionPlugins(
 		const layerOptions = nuxt.options._layers[index]?.config.betterAuth as ModuleOptions | undefined
 		if (!layerOptions)
 			continue
-		const server = layerOptions.server?.plugins ?? []
+		const server = serverEnabled && isServerEnabled(layerOptions)
+			? layerOptions.server?.plugins ?? []
+			: []
 		const client = layerOptions.client?.plugins ?? []
 		resolved.server.push(...await resolveLayerSources(server, `\`server.plugins\` in \`${directory.root}\``, directory.server))
 		resolved.client.push(...await resolveLayerSources(client, `\`client.plugins\` in \`${directory.root}\``, directory.app))
