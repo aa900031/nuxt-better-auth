@@ -16,7 +16,7 @@ export function resolvePlugins(
 	return new Promise((resolve) => {
 		nuxt.hook('modules:done', async () => {
 			const pluginsFromOptions = await resolveOptionPlugins(options, nuxt)
-			const pluginsFromHook = await resolveHookPlugins(nuxt)
+			const pluginsFromHook = await resolveHookPlugins(options, nuxt)
 			const registered: PluginSources = {
 				client: [
 					...pluginsFromOptions.client,
@@ -33,8 +33,10 @@ export function resolvePlugins(
 }
 
 async function resolveHookPlugins(
+	options: ModuleOptions,
 	nuxt = useNuxt(),
 ): Promise<PluginSources> {
+	const serverEnabled = isServerEnabled(options)
 	const registered: PluginSources = {
 		server: [],
 		client: [],
@@ -43,7 +45,9 @@ async function resolveHookPlugins(
 	await nuxt.callHook('better-auth:plugins:extend', registered)
 
 	return {
-		server: await resolveAbsoluteSources(registered.server, '`plugins.server` from `better-auth:plugins:extend`'),
+		server: serverEnabled
+			? await resolveAbsoluteSources(registered.server, '`plugins.server` from `better-auth:plugins:extend`')
+			: [],
 		client: await resolveAbsoluteSources(registered.client, '`plugins.client` from `better-auth:plugins:extend`'),
 	}
 }
