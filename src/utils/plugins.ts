@@ -2,6 +2,7 @@ import type { ModuleOptions } from '../module'
 import { findPath, getLayerDirectories, useNuxt } from '@nuxt/kit'
 import { isAbsolute } from 'pathe'
 import { diagnostics } from '../diagnostics'
+import { isServerEnabled } from './module-options'
 
 export interface PluginSources {
 	server: string[]
@@ -15,7 +16,7 @@ export function resolvePlugins(
 	return new Promise((resolve) => {
 		nuxt.hook('modules:done', async () => {
 			const pluginsFromOptions = await resolveOptionPlugins(options, nuxt)
-			const pluginsFromHook = await resolveHookPlugins(nuxt)
+			const pluginsFromHook = await resolveHookPlugins(options, nuxt)
 			const registered: PluginSources = {
 				client: [
 					...pluginsFromOptions.client,
@@ -32,8 +33,10 @@ export function resolvePlugins(
 }
 
 async function resolveHookPlugins(
+	options: ModuleOptions,
 	nuxt = useNuxt(),
 ): Promise<PluginSources> {
+	const serverEnabled = isServerEnabled(options)
 	const registered: PluginSources = {
 		server: [],
 		client: [],
@@ -42,7 +45,9 @@ async function resolveHookPlugins(
 	await nuxt.callHook('better-auth:plugins:extend', registered)
 
 	return {
-		server: await resolveAbsoluteSources(registered.server, '`plugins.server` from `better-auth:plugins:extend`'),
+		server: serverEnabled
+			? await resolveAbsoluteSources(registered.server, '`plugins.server` from `better-auth:plugins:extend`')
+			: [],
 		client: await resolveAbsoluteSources(registered.client, '`plugins.client` from `better-auth:plugins:extend`'),
 	}
 }
@@ -51,12 +56,13 @@ async function resolveOptionPlugins(
 	options: ModuleOptions,
 	nuxt = useNuxt(),
 ): Promise<PluginSources> {
+	const serverEnabled = isServerEnabled(options)
 	const resolved: PluginSources = {
 		server: [],
 		client: [],
 	}
 	const undeclared: PluginSources = {
-		server: [...options.server?.plugins ?? []],
+		server: [...serverEnabled ? options.server?.plugins ?? [] : []],
 		client: [...options.client?.plugins ?? []],
 	}
 
@@ -64,7 +70,9 @@ async function resolveOptionPlugins(
 		const layerOptions = nuxt.options._layers[index]?.config.betterAuth as ModuleOptions | undefined
 		if (!layerOptions)
 			continue
-		const server = layerOptions.server?.plugins ?? []
+		const server = serverEnabled && isServerEnabled(layerOptions)
+			? layerOptions.server?.plugins ?? []
+			: []
 		const client = layerOptions.client?.plugins ?? []
 		resolved.server.push(...await resolveLayerSources(server, `\`server.plugins\` in \`${directory.root}\``, directory.server))
 		resolved.client.push(...await resolveLayerSources(client, `\`client.plugins\` in \`${directory.root}\``, directory.app))

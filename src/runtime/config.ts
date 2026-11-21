@@ -4,7 +4,7 @@ export { defineAuthOptions as defineAuthServerOptions } from 'nitro-better-auth/
 export type { AuthOptionsFactory as AuthServerOptionsFactory, ServerOptionsContext } from 'nitro-better-auth/config'
 
 export interface ClientOptionsContext {
-	baseURL: string
+	baseURL: string | undefined
 }
 
 export type AuthClientOptionsFactory<

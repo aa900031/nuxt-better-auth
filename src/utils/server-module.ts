@@ -3,6 +3,7 @@ import type { PluginSources } from './plugins'
 import { addTemplate, useNuxt } from '@nuxt/kit'
 import { genServerOptionsExtended } from '../templates/server-options-extended'
 import { genTypeServerOptionsExtended } from '../templates/type-server-options-extended'
+import { isServerEnabled } from './module-options'
 import { resolveFilePath } from './user-config'
 
 const BUILD_FILENAME = 'better-auth/server-options.extended.js'
@@ -13,6 +14,9 @@ export function addServerModule(
 	plugins: Promise<PluginSources>,
 	nuxt = useNuxt(),
 ): void {
+	if (!isServerEnabled(options))
+		return
+
 	nuxt.options.build.transpile ??= []
 	nuxt.options.build.transpile.push('nitro-better-auth')
 

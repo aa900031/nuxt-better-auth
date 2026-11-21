@@ -9,7 +9,7 @@ import { env } from 'std-env'
 import { joinURL } from 'ufo'
 import { defineNuxtPlugin, useRequestHeaders, useRequestURL, useState } from '#app'
 import loadClientOptions from '#build/better-auth/client-options.mjs'
-import { forwardHeaders, mountPath } from '#build/better-auth/module-options.mjs'
+import { forwardHeaders, hasServer, mountPath } from '#build/better-auth/module-options.mjs'
 import { useRuntimeConfig } from '#imports'
 import { diagnostics } from '../diagnostics'
 
@@ -41,7 +41,7 @@ function createClient(
 	requestURL: URL,
 	requestHeaders: Record<string, string | undefined>,
 ): AuthClientResult {
-	if (import.meta.server && serverConfig.value == null) {
+	if (import.meta.server && hasServer && serverConfig.value == null) {
 		const config = readServerConfig(nuxt.ssrContext?.event)
 		if (config)
 			serverConfig.value = config
@@ -52,6 +52,8 @@ function createClient(
 	const options = (loadClientOptions(context) ?? {}) as BetterAuthClientOptions
 
 	if (!options.baseURL) {
+		if (!baseUrl)
+			throw diagnostics.NUXT_BETTER_AUTH_R1004()
 		options.baseURL = baseUrl
 	}
 	if (Object.keys(requestHeaders).length) {
@@ -96,8 +98,13 @@ function resolveUrl(
 	serverConfig: PublicServerConfig | null,
 	runtimeConfig: ReturnType<typeof useRuntimeConfig>,
 	requestURL: URL,
-): string {
+): string | undefined {
 	const publicConfig = runtimeConfig.public.betterAuth
+	if (!hasServer) {
+		return publicConfig.baseURL
+			? joinURL(publicConfig.baseURL, publicConfig.basePath)
+			: undefined
+	}
 	const siteUrl = runtimeConfig.public.siteUrl
 	const baseURL = publicConfig.baseURL
 		|| serverConfig?.baseURL
