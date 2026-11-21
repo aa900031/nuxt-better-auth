@@ -52,12 +52,13 @@ async function resolveOptionPlugins(
 	options: ModuleOptions,
 	nuxt = useNuxt(),
 ): Promise<PluginSources> {
+	const serverEnabled = isServerEnabled(options)
 	const resolved: PluginSources = {
 		server: [],
 		client: [],
 	}
 	const undeclared: PluginSources = {
-		server: [...isServerEnabled(options) ? options.server?.plugins ?? [] : []],
+		server: [...serverEnabled ? options.server?.plugins ?? [] : []],
 		client: [...options.client?.plugins ?? []],
 	}
 
@@ -65,7 +66,9 @@ async function resolveOptionPlugins(
 		const layerOptions = nuxt.options._layers[index]?.config.betterAuth as ModuleOptions | undefined
 		if (!layerOptions)
 			continue
-		const server = isServerEnabled(layerOptions) ? layerOptions.server?.plugins ?? [] : []
+		const server = serverEnabled && isServerEnabled(layerOptions)
+			? layerOptions.server?.plugins ?? []
+			: []
 		const client = layerOptions.client?.plugins ?? []
 		resolved.server.push(...await resolveLayerSources(server, `\`server.plugins\` in \`${directory.root}\``, directory.server))
 		resolved.client.push(...await resolveLayerSources(client, `\`client.plugins\` in \`${directory.root}\``, directory.app))
