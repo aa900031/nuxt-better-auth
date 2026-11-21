@@ -41,7 +41,7 @@ function createClient(
 	requestURL: URL,
 	requestHeaders: Record<string, string | undefined>,
 ): AuthClientResult {
-	if (import.meta.server && serverConfig.value == null) {
+	if (import.meta.server && hasServer && serverConfig.value == null) {
 		const config = readServerConfig(nuxt.ssrContext?.event)
 		if (config)
 			serverConfig.value = config
