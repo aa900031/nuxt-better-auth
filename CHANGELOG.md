@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.7.0
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.6.1...v0.7.0)
+
+### 🚀 Enhancements
+
+-  Add diagnostics (#76) ([6e9fd10](https://github.com/aa900031/nuxt-better-auth/commit/6e9fd10317f3b6911fee842813fa4490f981bdff))
+-  Add plugins from options / hooks (#75) ([82d615e](https://github.com/aa900031/nuxt-better-auth/commit/82d615e5d54f2c536cbb62a7e1ffe3d763be6a4b))
+-  Infer baseURL, secret (#73) ([510a83d](https://github.com/aa900031/nuxt-better-auth/commit/510a83d6333c8a25189ca1c238e43ff8270cbc53))
+-  Support external better-auth server with `server: false` (#77) ([42b80fb](https://github.com/aa900031/nuxt-better-auth/commit/42b80fb34045281a3a008fc21ffd25902b55c3fb))
+-  Support nuxt layer (#74) ([f6a9bfb](https://github.com/aa900031/nuxt-better-auth/commit/f6a9bfb746fa6804aefc5da9d457c4334bad6fac))
+
+### 🏡 Chore
+
+-  **deps:** Update devdependency @nuxt/devtools to ^3.4.4 (#71) ([631bbc0](https://github.com/aa900031/nuxt-better-auth/commit/631bbc0d078f6e929a77afd1abd1330264abb679))
+-  **deps:** Update nitro-better-auth ([bbe6e2d](https://github.com/aa900031/nuxt-better-auth/commit/bbe6e2dbecd870e7de2f623fbf9c8271b43a7146))
+-  **deps:** Update node.js to v24.22.3 (#40) ([73447f1](https://github.com/aa900031/nuxt-better-auth/commit/73447f12f4fb8ebb43ece70f4f87b387df5758b5))
+-  **deps:** Update pnpm to v11 ([9d2134e](https://github.com/aa900031/nuxt-better-auth/commit/9d2134e1e1e76b032191ef687980e7bb370a43ea))
+-  **deps:** Update pnpm to v11.28.11 (#60) ([16fc10e](https://github.com/aa900031/nuxt-better-auth/commit/16fc10e129a8be461806303b59729e190b31a8ef))
+
+
+
+#### ❤️ Contributors
+
+- Zhong666 <aa900031@gmail.com>
+- Renovate[bot]
+
 ## v0.6.1
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.6.0...v0.6.1)
