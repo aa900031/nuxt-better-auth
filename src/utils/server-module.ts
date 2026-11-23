@@ -49,6 +49,10 @@ export function addServerModule(
 		dependsOn: [],
 	})
 
+	nuxt.options.nitro.externals ??= {}
+	nuxt.options.nitro.externals.inline ??= []
+	nuxt.options.nitro.externals.inline.push(template.dst)
+
 	nuxt.options.nitro.betterAuth = {
 		...serverOptions,
 		options: { ...serverOptions.options, path: template.dst },
