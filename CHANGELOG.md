@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## v0.7.1
+
+[compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.7.0...v0.7.1)
+
+### 🩹 Fixes
+
+-  Resolve server-options.extended file (#79) ([cd54a0a](https://github.com/aa900031/nuxt-better-auth/commit/cd54a0ae6fee6148f5b88887e796e6dae826c00c))
+
+
+
+#### ❤️ Contributors
+
+- Zhong666 <aa900031@gmail.com>
+
 ## v0.7.0
 
 [compare changes](https://github.com/aa900031/nuxt-better-auth/compare/v0.6.1...v0.7.0)
